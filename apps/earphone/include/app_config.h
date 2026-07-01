@@ -8,7 +8,7 @@
 #define LIB_DEBUG    1
 #define CONFIG_DEBUG_LIB(x)         (x & LIB_DEBUG)
 
-/* #define CONFIG_DEBUG_ENABLE */
+#define CONFIG_DEBUG_ENABLE
 /* #define CONFIG_DEBUG_LITE_ENABLE */
 
 ////////////////////////////////////////////////////////////////////////////////////////////

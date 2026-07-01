@@ -48,8 +48,8 @@
 
 // Bluetooth device name — shown on phone pairing screen (max 31 chars)
 // Both buds in the same pair should use the same name
-#define BT_DEVICE_NAME      {'Z', 'O', 'N', 'E', '-', 'E', 'E', 'G', '-', 'B', 'U', 'D', '0', '0', '1'}   // for bt_cfg struct init
-#define BT_DEVICE_NAME_STR  "ZONE-EEG-BUD001"                               // for syscfg_write to VM
+#define BT_DEVICE_NAME      {'Z', 'O', 'N', 'E', '-', 'E', 'E', 'G', '-', 'B', 'U', 'D', '-', '0', '0', '1'}   // for bt_cfg struct init
+#define BT_DEVICE_NAME_STR  "ZONE-EEG-BUD-001"                               // for syscfg_write to VM
 
 #define BUD_LEFT    0
 #define BUD_RIGHT   1

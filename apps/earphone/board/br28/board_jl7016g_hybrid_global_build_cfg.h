@@ -63,8 +63,8 @@
 #define CONFIG_UART_UPDATE_PIN                  PP00
 
 //isd_download loader/uboot/update_loader debug io config
-//#define CONFIG_UBOOT_DEBUG_PIN                  PA05
-//#define CONFIG_UBOOT_DEBUG_BAUD_RATE            1000000
+#define CONFIG_UBOOT_DEBUG_PIN                  PB05
+#define CONFIG_UBOOT_DEBUG_BAUD_RATE            1000000
 
 //config long-press reset io pin,time,trigger level
 #define CONFIG_RESET_PIN                        LDO  //io pin
