@@ -1,0 +1,1 @@
+2026-05-19T12:30:54.951 [SERIAL_ERROR] could not open port 'COM25': OSError(22, 'The requested resource is in use.', None, 170)

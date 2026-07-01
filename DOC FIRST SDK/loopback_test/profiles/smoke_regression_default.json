@@ -1,0 +1,24 @@
+{
+  "name": "default_smoke_regression",
+  "forbidden_keywords": [
+    "assert",
+    "panic",
+    "hardfault",
+    "fatal",
+    "watchdog",
+    "exception"
+  ],
+  "warning_keywords": [
+    "timeout",
+    "retry",
+    "reconnect",
+    "linein",
+    "aux"
+  ],
+  "tws_expected_keywords": [
+    "tws",
+    "pair",
+    "sibling",
+    "connect"
+  ]
+}

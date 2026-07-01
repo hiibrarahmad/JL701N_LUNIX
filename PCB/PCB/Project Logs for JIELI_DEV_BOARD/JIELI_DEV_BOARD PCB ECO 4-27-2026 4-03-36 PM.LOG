@@ -1,0 +1,14 @@
+Change Component Designator: OldDesignator=L10 NewDesignator=L10-2nH
+Change Component Designator: OldDesignator=L11 NewDesignator=L11-2nH
+Change Component Designator: OldDesignator=L12 NewDesignator=L12 1.9nH
+Change Component Designator: OldDesignator=L13 NewDesignator=L13 1.9nH
+Change Component Designator: OldDesignator=L14 NewDesignator=L14 -1.7nH
+Change Component Designator: OldDesignator=L15 NewDesignator=L15 1.7nH
+Change Component Designator: OldDesignator=L16 NewDesignator=L16-1.5nH
+Change Component Designator: OldDesignator=L17 NewDesignator=L17-1.5nH
+Change component parameters: Designator = "C79" ("C79"); Footprint = "C0402"; UniqueID = "\MSJNRZEX" ("\MSJNRZEX")
+Change component parameters (AddParameter): Name = "JLCPCB Part #"; Value = "C1544"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "FH (Guangdong Fenghua Advanced Tech)"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MFR.Part #"; Value = "0402CG0R5C500NT"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.5pF"; VariantName = "[No Variations]"

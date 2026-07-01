@@ -1,0 +1,22 @@
+{
+	"nodes":[
+		{"id":"upd_hub","type":"text","text":"UPDATE FOLDER CANVAS","x":-100,"y":-80,"width":320,"height":90,"color":"3"},
+		{"id":"main","type":"file","file":"SDK UPDATE FIXING/MAIN CANVAS.canvas","x":-520,"y":-80,"width":300,"height":90,"color":"4"},
+		{"id":"migration_index","type":"file","file":"SDK UPDATE FIXING/UPDATE/MIGRATION COMPARISON/00 - MIGRATION COMPARISON INDEX.md","x":340,"y":-80,"width":380,"height":160,"color":"1"},
+		{"id":"mac_index","type":"file","file":"SDK UPDATE FIXING/UPDATE/MAC ADDRESS PROVISIONING/00 - MAC ADDRESS PROVISIONING INDEX.md","x":340,"y":120,"width":380,"height":160,"color":"6"},
+		{"id":"bootlog_index","type":"file","file":"SDK UPDATE FIXING/UPDATE/BOOT LOG DEEP ANALYSIS/00 - BOOT LOG DEEP ANALYSIS INDEX.md","x":340,"y":320,"width":460,"height":160,"color":"2"},
+		{"id":"bootlog_note","type":"text","text":"BOOT LOG DEEP ANALYSIS\nclock/reset + VM + BT/TWS + error decoder + provisioning validation","x":315,"y":530,"width":520,"height":100,"color":"2"},
+		{"id":"doclib_canvas","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/00 - DOC LIBRARY.canvas","x":-150,"y":145,"width":420,"height":110,"color":"2"},
+		{"id":"note","type":"text","text":"DOC LIBRARY contains deep technical notes and trackers.","x":-150,"y":-340,"width":420,"height":90,"color":"5"},
+		{"id":"mac_note","type":"text","text":"MAC ADDRESS PROVISIONING\nmanual pair mapping + factory flash workflow","x":880,"y":155,"width":430,"height":90,"color":"6"}
+	],
+	"edges":[
+		{"id":"ue1","fromNode":"main","fromSide":"right","toNode":"upd_hub","toSide":"left","color":"4"},
+		{"id":"ue2","fromNode":"upd_hub","fromSide":"bottom","toNode":"doclib_canvas","toSide":"top","color":"2"},
+		{"id":"ue3","fromNode":"upd_hub","fromSide":"right","toNode":"migration_index","toSide":"left","color":"1"},
+		{"id":"ue4","fromNode":"upd_hub","fromSide":"right","toNode":"mac_index","toSide":"left","color":"6"},
+		{"id":"ue5","fromNode":"mac_index","fromSide":"bottom","toNode":"mac_note","toSide":"top","color":"6"},
+		{"id":"ue6","fromNode":"upd_hub","fromSide":"right","toNode":"bootlog_index","toSide":"left","color":"2"},
+		{"id":"ue7","fromNode":"bootlog_index","fromSide":"bottom","toNode":"bootlog_note","toSide":"top","color":"2"}
+	]
+}

@@ -1,0 +1,767 @@
+   JL7016G Datasheet
+
+
+
+
+Zhuhai Jieli Technology Co.,LTD
+                                                           Version：1.6
+
+                                                      Date：2024.08.09
+
+
+
+
+Copyright © Zhuhai Jieli Technology Co.,LTD. All rights reserved.
+                                                                                      JL7016G Datasheet
+
+
+                                 JL7016G Features
+CPU                                                      8kHz/11.025kHz/16kHz/22.05kHz/24kHz/
+   32bit Dual-Core DSP                                   32kHz/44.1kHz/48kHz are supported
+   Maximum speed 160MHz                                  Support four digital/analog MIC inputs
+   IEEE754 Single precision FPU                          Four channels analog audio inputs
+   Mathematical accelerate engine                        Audio DAC support differential cap-less
+   Interrupts with 8 priority level                      mode or single-ended mode
+                                                         Direct drive 16ohm/32ohm Speaker loading
+Memory
+   Support MMU                                        ANC
+   Built-In Flash                                        ANC processing engine up to 750 kHz sample
+                                                         rate
+Clocks                                                   7.5μs analog to analog latency
+   On-chip 16 MHz clock oscillator                       Supports 4 differential or single-ended analog
+   On-chip 200 kHz lower-temperature-drift               inputs, 4 digital microphone inputs for ANC
+   clock oscillator                                      Supports 2 channels Feed-Forward,
+   24 MHz crystal oscillator                             Feed-Back, Hybrid ANC
+                                                         ANC module include 20 double precision
+DSP Audio Processing                                     Biquad filters for each FF/FB/ music
+   LDAC, LHDC, SBC, AAC Audio decodes                    compensation control
+   supported for BT audio
+   mSBC voice codec supported for BT phone            Bluetooth
+   Supports MP2, MP3, WMA, APE, FLAC,                    Compliant with Bluetooth
+   AAC, MP4, M4A, WAV, AIF, AIFC audio                   V5.4+BR+EDR+BLE specification
+   decoding                                              （QDID：222830）
+   Packet Loss Concealment (PLC) for voice               Support AoA/AoD direction finding
+   processing                                            Support LE audio BIS/CIS full function
+   Single/Dual MIC Environmental Noise                   Meet class1，class2，class3 transmitting power
+   Cancellation (ENC)                                    requirement
+   Multi-band DRC limiter                                Maximum +9dbm transmitting power
+   Multi-band EQ configuration for voice                 EDR receiver with minimum -95dBm
+   Effects                                               sensitivity
+   Support Hi-Res Audio                                  Support a2dp\avctp\avdtp\avrcp\hfp\spp\smp\
+                                                         att\gap\gatt\rfcomm\sdp\l2cap profile
+Audio Codec                                              BAP 1.0.1\PACS 1.0.1\CCP 1.0\MCP
+   One channel 24-bit DAC,SNR ≥ 104dB                    1.0\MICP 1.0\VCP 1.0\CSIP
+   Four channels 24-bit ADC,SNR ≥ 95dB                   1.0.1\ASCS1.0\BASS 1.0\CAP 1.0\HAP
+   Audio DAC Sampling rates of                           1.0\PBP 1.0\TMAP 1.0\LC3 1.0
+   8kHz/11.025kHz/16kHz/22.05kHz/24kHz/                  A2DP 1.4\AVCTP 1.4\AVDTP 1.3\ AVRCP
+   32kHz/44.1kHz/48kHz/64kHz/88.2kHz/                    1.6.2\HFP 1.8 \SPP 1.2\RFCOMM 1.2\PNP
+   96kHz are supported                                   1.3\HID 1.1.1\SDP core5.4\L2CAP core 5.4
+   Audio ADC Sampling rates of
+
+
+                                             1 / 19
+                                                                                         JL7016G Datasheet
+
+
+                                                         PMU
+Peripherals                                                  Built-in lithium battery charging manager,up
+    One full speed USB OTG controller                        to 200mA charging current
+    One SD host controller for eMMC/SD                       Built-in LDO and Buck DC-DC converter
+    Six multi-function 32-bit timers, support                Less than 2uA sleep current
+    capture and PWM mode                                     VPWR range : 4.5V to 5.5V
+    Four UART interface,                                     VBAT range : 2.2V to 4.5V
+    UART0,UART1&UART2 support DMA                            IOVDD range : 2.2V to 3.6V
+    I2C Master/Slave interface                               Conform with IEC 62368-1:2018 certification
+    SPI Master/Slave interface
+    I2S Master/Slave interface                           Packages
+    QDEC                                                     QFN32(4mm*4mm)
+    Low power CapSense
+    9-channel 10-bit ADC for analog sampling             Temperature
+    4-channel Motor PWM controller                           Operating temperature: -40℃ to +85℃
+    18 Individually programmable and                         Storage temperature: -65℃ to +150℃
+    multiplexed GPIO pins
+    Up to 12 external interrupt/wake-up                  Applications
+    source(low power available,can be                        Bluetooth TWS ANC Earphones
+    multiplexed to any I/O)                                  Bluetooth TWS Earphones
+
+
+
+
+                                                2 / 19
+                                                         JL7016G Datasheet
+
+
+1   Block Diagram
+
+
+
+
+                    Figure 1-1   JL7016G Block Diagram
+
+
+
+
+                                    3 / 19
+                                                           JL7016G Datasheet
+
+
+2   Pin Definition
+2.1 Pin Assignments
+
+
+
+
+                      Figure 2-1 JL7016G Package Diagram
+
+
+
+
+                                     4 / 19
+                                                                                               JL7016G Datasheet
+
+
+2.2 Pin Description
+                            Table 2-1 JL7016G Pin Description
+
+ PIN
+        Name    Type           Function                                  Other Function
+ NO.
+  1    DACLN    AO                                 Different DAC Left Negative Channel
+  2    DACLP    AO                                 Different DAC Left Positive Channel
+  3    HPVDD     PI                                Audio power;
+         PE6    I/O     GPIO                       SDPG: Supply Voltage to SD Card;
+                                                   MICIN2: MIC2 Input Channel 2;
+  4
+        PG8     I/O     GPIO                       MIC2_P: Different MIC2 Positive;
+                                                   AMUX_C0:Analog Channel C0 input;
+                                                   MIC_BIAS2: MIC2 Bias Output(Built-in resistor);
+                                                   MIC2_N: Different MIC2 Negative;
+  5     PG7     I/O     GPIO
+                                                   AMUX_C1: Analog Channel C1 input;
+                                                   ADC15: ADC Input Channel 15;
+                                                   MICIN3: MIC3 Input Channel3;
+                                                   MIC3_P: Different MIC3 Positive;
+  6     PG6     I/O     GPIO
+                                                   AMUX_D0: Analog Channel D0 input;
+                                                   FPIN2: Fault Detect In2;
+                                                   MIC_BIAS3: MIC3 Bias Output(Built-in resistor);
+                                                   MIC3_N: Different MIC3 Negative;
+  7     PG5     I/O     GPIO                       AMUX_D1:Analog Channel D1 input;
+                                                   ADC14: ADC Input Channel 14;
+                                                   TMR3CK: PWM Timer3 CLK In;
+  8     PGND     G                                 The ground of Buck DC-DC converter;
+  9      SW     PO                                 Switch signal of the Buck converter,connected to Inductor;
+  10    VBAT     P                                 Battery interface;
+                                                   Charging Power Input;
+                                                   UART0TXB: Uart0 Data Out(B);
+        VPWR     PI     GPIO
+  11                                               UART0RXB: Uart0 Data In(B);
+        (PP0)   (I/O)   (High Voltage Resistant)
+                                                   PWM3: Timer3 PWM Output;
+                                                   CAP1: Timer1 Capture;
+  12   IOVDD    PO                                 Built-in linear voltage regulator output;
+  13   DCVDD     P                                 Internal Power;
+                                                   LP_Touch4: Low Power Touch Channel 4;
+                                                   IIC1_SDA_A: IIC1 SDA(A);
+  14    PB5     I/O     GPIO
+                                                   ADC8: ADC Input Channel 8;
+                                                   UART3RXB: Uart3 Data In(B);
+
+
+
+
+                                               5 / 19
+                                                                               JL7016G Datasheet
+
+                                           LP_Touch3: Low Power Touch Channel 3;
+                                           CLKOUT0: Clock Out0;
+                                           SPI4DIA: SPI4 Data In(A);
+15    PB4    I/O   GPIO
+                                           IIC1_SCL_A: IIC1 SCL(A);
+                                           UART3TXB: Uart3 Data Output(B);
+                                           TMR2: Timer2 Clock Input;
+                                           Hold down 0 to reset;
+16    PB1    I/O   GPIO                    LP_Touch1: Low Power Touch Channel 1;
+                                           ADC6: ADC Input Channel 6;
+17   BTRF    RFI                           Bluetooth RF antenna interface;
+18   XOSCI    I                            System Crystal Oscillator Input;
+19   XOSCO   O                             System Crystal Oscillator Output;
+                                           SPI0_DAT2C: SPI0 Data2(C);
+                                           SD0_CLKA: SD0 Clock(A);
+                                           SPI1DOB: SPI1 Data Out(B);
+20    PC5    I/O   GPIO                    IIC0_SDA_B: IIC0 SDA(B);
+                                           ALNK_DAT3(B): Audio Link Data3(B);
+                                           ADC5: ADC Input Channel 5;
+                                           UART2RXA: Uart2 Data In(A);
+                                           SPI0_DIC: SPI0 Data In(C);
+                                           SD0CMDA: SD0 CMD(A);
+                                           SPI1CLKB: SPI1 Clock(B);
+                                           IIC0_SCL_B: IIC0 SCL(B);
+21    PC4    I/O   GPIO
+                                           ALNK_DAT2B: Audio Link Data2(B);
+                                           ADC4: ADC Input Channel 4;
+                                           UART2TXA: Uart2 Data Out(A);
+                                           PWM4: Timer4 PWM Output;
+                                           SPI0_CSC: SPI0 Chip Select(C);
+                                           SD0DATOA: SD0 Data Out(A);
+22    PC3    I/O   GPIO                    SPI1DIB: SPI1 Data In(B);
+                                           ALNK_LRCKB: Audio Link Word Select(B);
+                                           TMR3: Timer3 Clock Input;
+                                           SDTAP_DATB: SDTAP Data(B);
+                                           SPI2DOB: SPI2 Data Out(B);
+                   USB Negative Data
+23   USBDM   I/O                           IIC0_SDA_A: IIC0 SDA(A);
+                   (pull down)
+                                           ADC11: ADC Input Channel 11;
+                                           UART1RXB: Uart1 Data In(B);
+                                           SDTAP_CLKB: SDTAP CLK(B);
+                                           SPI2CLKB: SPI2 Clock(B);
+                   USB Positive Data
+24   USBDP   I/O                           IIC0_SCL_A: IIC0 SCL(A);
+                   (pull down)
+                                           ADC10: ADC Input Channel 10;
+                                           UART1TXB: Uart1 Data Out(B);
+
+
+
+
+                                       6 / 19
+                                                                                JL7016G Datasheet
+
+                                       MIC_BIAS1: MIC1 Bias Output(Built-in resistor);
+                                       MIC1_N: Different MIC1 Negative;
+                                       AMUX_B1:Analog Channel B1 input;
+     25    PA4       I/O    GPIO
+                                       SPI2DIA: SPI2 Data In(A);
+                                       ALNK_DAT1A: Audio Link Data1(A);
+                                       CAP2: Timer2 Capture;
+                                       MICIN1: MIC1 Input Channel 1;
+                                       MIC1_P: Different MIC1 Positive;
+                                       AMUX_B0:Analog Channel B0 input;
+     26    PA3       I/O    GPIO
+                                       SPI1DOA: SPI1 Data Out(A);
+                                       ALNK_DAT0(A): Audio Link Data0(A);
+                                       PWM1: Timer1 PWM Output;
+                                       MIC_BIAS0: MIC0 Bias Output(Built-in resistor);
+                                       MIC0_N: Different MIC0 Negative;
+                                       AMUX_A1:Analog Channel A1 input;
+                                       CLKOUT1: Clock Out1;
+     27    PA2       I/O    GPIO
+                                       SPI1CLKA: SPI1 Clock(A);
+                                       ALNK_MCLKA: ALNK Master Clock(A);
+                                       UART1RXA: Uart1 Data In(A);
+                                       CAP3: Timer3 Capture;
+                                       MICIN0: MIC0 Input Channel 0;
+                                       MIC0_P: Different MIC0 Positive;
+                                       AMUX_A0:Analog Channel A0 input;
+     28    PA1       I/O    GPIO
+                                       SPI1DIA: SPI1 Data In(A);
+                                       UART1TXA: Uart1 Data Out(A);
+                                       PWM0: Timer0 PWM Output;
+                                       MICLDO: MIC Power Supply;
+     29    PA0       I/O    GPIO
+                                       ADC0: ADC Input Channel 0;
+     30    ACM        P                Audio analog reference bias;
+     31    VCM        P                Audio analog reference bias;
+     32    AVSS       G                Audio analog ground;
+    PAD    VSS        G                System Ground;
+
+
+
+
+Pin Type    Description               Pin Type      Description
+P           Power                     I/O           Input or Output
+PO          Power Output              I             Input
+PI          Power Input               O             Output
+G           Ground                    RFI           Radio frequency interface
+AO          Analog Output
+
+
+
+
+                                   7 / 19
+                                                                                                 JL7016G Datasheet
+
+
+3     Electrical Characteristics
+3.1 Absolute Maximum Ratings
+                                                          Table 3-1
+        Symbol                                   Parameter                       Min           Max         Unit
+         Topt            Operating temperature                                   -40            +85        °C
+          Tstg           Storage temperature                                     -65           +150        °C
+        VBAT             Supply Voltage                                          -0.3           4.5         V
+        VPWR             Charger Voltage                                         -0.3            6          V
+        VIOVDD           Voltage applied at IOVDD                                -0.3           3.6         V
+         VGPIO           Voltage applied to GPIO                                 -0.3       IOVDD+0.3       V
+         VHVIO           Voltage applied to High Voltage Resistant IO            -0.3          +5.5         V
+        VHPVDD           Voltage applied at HPVDD                                -0.3           +3          V
+
+Note : The chip can be damaged by any stress in excess of the absolute maximum ratings listed below
+
+
+3.2 PMU Characteristics
+                                                          Table 3-2
+      Symbol            Parameter         Min        Typ        Max     Unit            Test Conditions
+      VBAT             Voltage Input       2.2       3.7        4.4      V
+                      Charger supply
+      VPWR                                 4.5       5.0        5.5      V
+                         Voltage
+ Operating mode
+                      Voltage output       _         3.0         _       V     VBAT = 4.2V, 10mA loading
+      IOVDD
+                     Loading current       _          _         200     mA     IOVDD=3.2V@VBAT = 3.5V
+                     Voltage output        _         1.25        _       V     IOVDD=3.0V, 10mA loading
+                                                                               DCVDD=1.25V@IOVDD=3.0v
+                                           _          _         100     mA
+     DCVDD                                                                     on LDO mode
+                     Loading current
+                                                                               DCVDD=1.25V@VBAT=3.0v
+                                           _          _         180     mA
+                                                                               on DCDC mode
+                     Voltage output        _         1.1         _       V     DCVDD=1.25V, 1mA loading
+      EVDD
+                     Loading current       _          _          5      mA     EVDD=1.1V@DCVDD=1.25v
+ Low Power mode
+      IOVDD           Loading current      _          _          10     mA     IOVDD=3V@VBAT = 4.2V
+
+
+
+
+                                                            8 / 19
+                                                                                                         JL7016G Datasheet
+
+
+3.3 Battery Charge
+
+ Symbol         Parameter          Min        Typ        Max          Unit                   Test Conditions
+                Charge Input
+ VPWR                              4.5            5      5.5           V                             _
+                  Voltage
+
+                                   4.15       4.2        4.25          V                      VPWR＞4.5V
+ Vbat float   Charge Voltage
+                                   4.30       4.35       4.40          V                      VPWR＞4.65V
+
+                                                                                      Charge current at fast charge mode
+    Ibat       Charge Current      15             _      200          mA
+                                                                                        VBAT=4.0V@VPWR=5.0V
+               End Of Charge
+   Iend                             2             _       30          mA                    End of charge current
+                  Current
+               Trickle Charge
+  VTrikl                            _         3.0         _            V                       VPWR＞4.5V
+                  Voltage
+               Trickle Charge
+   ITrikl                          1.5            _       30          mA                         VBAT<VTrikl
+                  Current
+                                                       Table 3-3
+
+3.4 IO Input/Output Electrical Logical Characteristics
+                                                       Table 3-4
+GPIO input characteristics
+  Symbol           Parameter                 Min               Typ              Max           Unit       Test Conditions
+                Low-Level Input
+    VIL                                      -0.3                 _          0.3* IOVDD        V         IOVDD = 3.0V
+                   Voltage
+                High-Level Input
+    VIH                                   0.7* IOVDD              _          IOVDD+0.3         V         IOVDD = 3.0V
+                    Voltage
+High Voltage Resistant IO input characteristics
+
+  Symbol           Parameter                 Min               Typ              Max           Unit       Test Conditions
+
+                Low-Level Input
+    VIL                                      -0.3                 _          0.3* IOVDD        V         IOVDD = 3.0V
+                   Voltage
+                High-Level Input
+    VIH                                   0.7* IOVDD              _             +5V            V         IOVDD = 3.0V
+                    Voltage
+GPIO & High Voltage Resistant IO output characteristics
+
+  Symbol           Parameter                 Min               Typ              Max           Unit       Test Conditions
+
+               Low-Level Output
+    VOL                                       _                   _          0.1* IOVDD        V         IOVDD = 3.0V
+                    Voltage
+               High-Level Output
+    VOH                                   0.9* IOVDD              _              _             V         IOVDD = 3.0V
+                    Voltage
+
+
+
+
+                                                         9 / 19
+                                                                                                        JL7016G Datasheet
+
+
+3.5 Internal Resistor Characteristics
+                                                 Table 3-5
+                                                 Internal             Internal
+    Port                  Drive(mA)              Pull-Up             Pull-Down                    Comment
+                                                 Resistor             Resistor
+  PA0~PA4            HD,HD0==0,1           8
+  PC3~PC5
+                     HD,HD0==1,0           26         10K              10K
+  PG5~PG8
+                                                                                     1、PB1 default pull up
+    PE6              HD,HD0==1,1           46
+ PP0(VPWR)                                                                           2、USBDM & USBDP default pull Down
+                              8                       10K              10K
+  PB1~PB5                                                                            3、internal pull-up / pull-down
+
+   USBDP                                              1.5K             15K           resistance | accuracy ±20%
+                              4
+   USBDM                                              180K             15K
+
+
+
+
+3.6 DAC Characteristics
+                                                 Table 3-6
+                                                                                          Audio
+            Parameter              Min          Typ             Max          Unit                       Test Conditions
+                                                                                         Format
+     Frequency Response               20         _              20k           Hz             _
+                                                                                                       Differential Mode
+           Output Swing               _          1               _           Vrms            _
+                                                                                                             1KHz/0dB
+                                      _         -77              _            dB           PCM
+             THD+N                                                                                       32 ohm loading
+                                      _         -70              _            dB           SBC
+                                                                                                       With A-Weighted
+                                      _         105              _            dB           PCM
+               S/N                                                                                             Filter
+                                      _         105              _            dB           SBC
+                                                                                                       Differential Mode
+                                                                                                             1KHz/-60dB
+                                      _         104              _            dB           PCM
+       Dynamic Range                                                                                     32 ohm loading
+                                                                                                       With A-Weighted
+                                      _         104              _            dB           SBC                 Filter
+           Noise Floor                _         5.6              _           uVrms           _         A-Weighted Filter
+                                                                                                       Differential Mode
+     DAC Output Power                 _         32              50           mW              _
+                                                                                                         32ohm loading
+
+
+
+
+                                                      10 / 19
+                                                                                                JL7016G Datasheet
+
+
+3.7 ADC Characteristics
+                                                  Table 3-7
+           Parameter                  Min    Typ                  Max    Unit              Test Conditions
+                                                                                   Fsample=44.1kHz,Gain=0dB
+        Dynamic Range                         94                             dB
+                                                                                         Fin=1KHz 590mVrms
+              SNR                      _      95                   _         dB    Fsample=44.1kHz,Gain=0dB
+            THD+N                      _      -75                  _         dB          Fin=1KHz 590mVrms
+              SNR                      _      76                   _         dB    Fsample=44.1kHz,Gain=18dB
+            THD+N                      _      -73                  _         dB          Fin=1KHz 75mVrms
+
+
+
+3.8 BT Characteristics
+3.8.1 Transmitter
+Basic Data Rate                               Table 3-8
+                Parameter                   Min          Typ            Max       Unit         Test Conditions
+
+            RF Transmit Power                                 7          9        dBm
+
+         RF Power Control Range                           18                      dB
+                                                                                            25℃,
+             20dB Bandwidth                              950                      KHz
+                                                                                            Power Supply
+    In-band spurious        F=F0±1MHz                     -20                     dBm
+                                                                                            VBAT=3.7V
+       Emissions            F=F0±2MHz                     -51                     dBm
+                                                                                            2441MHz
+   （BQB Test Mode           F=F0±3MHz                     -55                     dBm
+
+ RF_Tx Power=5dBm）          F=F0+/-＞3MHz                  -55                     dBm
+
+
+Enhanced Data Rate                           Table 3-9
+                Parameter                   Min          Typ            Max       Unit         Test Conditions
+
+              Relative Power                              -2                      dB
+
+                             DEVM RMS                         9                    %
+     π/4 DQPSK                                                                              25℃,
+                               DEVM 99%                   23                       %
+  Modulation Accuracy                                                                       Power Supply
+                               DEVM Peak                  18                       %
+                                                                                            VBAT=3.7V
+    In-band spurious        F=F0±1MHz                     -4                      dBm
+                                                                                            2441MHz
+       Emissions            F=F0±2MHz                     -34                     dBm
+   （BQB Test Mode           F=F0±3MHz                     -43                     dBm
+ RF_Tx Power=5dBm）
+                            F=F0+/-＞3MHz                  -48                     dBm
+
+
+
+
+                                                    11 / 19
+                                                                                         JL7016G Datasheet
+
+3.8.2 Receiver
+Basic Data Rate                                       Table 3-10
+                Parameter                      Min          Typ      Max    Unit        Test Conditions
+
+                 Sensitivity                                 -92            dBm
+
+     Co-channel Interference Rejection                       10              dB       25℃,
+
+                                  +1MHz                      -4              dB       Power Supply
+
+                                  -1MHz                      -3              dB       VBAT=3.7V
+    Adjacent channel              +2MHz                      -39             dB       2441MHz
+
+     selectivity C/I              -2MHz                      -33             dB       DH5
+
+                                  +3MHz                      -45             dB
+
+                                  -3MHz                      -28             dB
+
+
+Enhanced Data Rate                                   Table 3-11
+                Parameter                      Min          Typ      Max    Unit        Test Conditions
+
+                 Sensitivity                   -95           -94            dBm
+
+     Co-channel Interference Rejection                       10              dB       25℃,
+
+                                  +1MHz                      -8              dB       Power Supply
+
+                                  -1MHz                      -8              dB       VBAT=3.7V
+    Adjacent channel              +2MHz                      -40             dB       2441MHz
+
+     selectivity C/I              -2MHz                      -33             dB       2DH5
+
+                                  +3MHz                      -45             dB
+
+                                  -3MHz                      -27             dB
+
+
+3.8.3 BLE
+1M Data Rate                                     Table 3-12
+                Parameter                      Min          Typ      Max     Unit        Test Conditions
+
+                 Sensitivity                                 -96             dBm
+
+            RF Transmit Power                                    7           dBm
+
+    In-band Spurious           |M-N|=2MHz                    -37             dBm
+       Emission                |M-N|≥3MHz                            -34     dBm       25℃
+
+                                  Δf1 avg                   250              KHz       Power Supply
+      Modulation
+                                 Δf2 99%                    211              KHz       VBAT=3.7V
+     Characteristics
+                               Δf1avg/Δf2avg                 0.9                       2440MHz
+
+         Carrier Frequency Offset              -15                   +15     KHz
+
+              Frequency Drift                  -25                   +25     KHz
+
+           Frequency Drift Rate                -5                    +5    KHz/50us
+
+
+                                                       12 / 19
+                                                                                                  JL7016G Datasheet
+
+2M Data Rate                                         Table 3-13
+                 Parameter                         Min          Typ          Max     Unit         Test Conditions
+
+                 Sensitivity                                     -94                 dBm
+
+             RF Transmit Power                                       7               dBm
+
+                               |M-N|=4MHz                        -44                 dBm
+    In-band Spurious
+                               |M-N|=5MHz                        -43                 dBm
+        Emission                                                                               25℃
+                               |M-N|≥6MHz                                    -48     dBm
+                                                                                               Power Supply
+                                  Δf1 avg                       500                  KHz
+       Modulation                                                                              VBAT=3.7V
+                                 Δf2 99%                        428                  KHz
+      Characteristics                                                                          2440MHz
+                               Δf1avg/Δf2avg                     0.9
+
+          Carrier Frequency Offset                 -20                       +20     KHz
+
+               Frequency Drift                     -25                       +25     KHz
+
+            Frequency Drift Rate                   -5                        +5    KHz/50us
+
+
+Long Range                                          Table 3-14
+                 Parameter                         Min          Typ          Max     Unit         Test Conditions
+
+          Sensitivity LE 125K(S8)                               -104                 dBm       VBAT=3.7V,25℃
+
+          Sensitivity LE 500K(S2)                               -100                 dBm       2440MHz
+
+
+
+
+3.9 ESD Protection
+                                                         Table 3-12
+          Parameter                         Typ.               Test pin                Reference standard
+     Human Body Mode                    ±4KV                   All pins             JEDEC EIA/JESD22-A114
+        Machine Mode                   ±200V                   All pins             JEDEC EIA/JESD22-A115
+    Charge Device Model                 ±1KV                   All pins            JEDEC EIA/JESD22-C101F
+                                      ±200mA                All GPIO pins
+           Latch up                                                                JEDEC STANDARD NO.78E
+                                     1.5xVopmax             All power pins
+Note : 1.5xVopmax = 1.5 times maximum operating voltage.
+
+
+
+
+                                                           13 / 19
+                                                 JL7016G Datasheet
+
+
+4   Package Information
+4.1 QFN32_4.0x4.0
+
+
+
+
+                    Figure 4-1 JL7016G Package
+
+
+
+
+                              14 / 19
+                                                               JL7016G Datasheet
+
+
+5   IC Marking Information
+
+
+
+
+1    LLL......LL：LOT No. , It contains 7 to 18 alphanumerics
+2   JL701Nx：Chip Model
+③   x：Built-in flash size
+       0: No Flash Memory
+       2: 2Mbit Flash
+       4: 4Mbit Flash
+       8: 8Mbit Flash
+       6: 16Mbit Flash
+       3: 32Mbit Flash
+
+
+
+
+                                               15 / 19
+                                                                                                        JL7016G Datasheet
+
+
+6       Solder-Reflow Condition
+
+
+
+
+                                      Figure 6-1 Classification Reflow Profile
+
+Classiﬁcation Proﬁles                                  Table 6-1
+               Proﬁle Feature                         Sn-Pb Eutectic Assembly                     Pb-Free Assembly
+             Temperature Min (Tsmin)                            100℃                                   150℃
+ Preheat/
+             Temperature Max (Tsmax)                            150℃                                   200℃
+ Soak
+             Time (ts) from (Tsmin to Tsmax)               60-120 seconds                          60-180 seconds
+ Average ramp-up rate (Tsmax to Tp)                        3℃/second max                           3℃/second max
+ Liquidous temperature (TL)                                     183℃                                   217℃
+ Time (tL) maintained above TL                             60-150 seconds                          60-150 seconds
+ Peak package body temperature (Tp)                         See Table 6-2                           See Table 6-3
+ Time within 5℃ of actual
+ Peak Temperature (tp)2                                     10-30 seconds                           20-40 seconds
+
+
+ Ramp-down rate (Tp to TL)                                 6℃/second max                           6℃/second max
+ Time 25℃ to peak temperature                               6 minutes max                          8 minutes max
+Note 1: All temperatures refer to topside of the package, measured on the package body surface.
+Note 2: Time within 5℃ of actual peak temperature (tp) specified for the reflow profiles is a “supplier” minimum
+        and “user” maximum.
+
+
+SnPb - Classification Temperature                    Table 6-2
+                Package                                Volume mm3                                 Volume mm3
+               Thickness                                   < 350                                     ≥ 350
+
+                <2.5 mm                                 240 +0/-5℃                                 225 +0/-5℃
+
+               ≥2.5 mm                                  225 +0/-5℃                                 225 +0/-5℃
+
+
+
+
+                                                          16 / 19
+                                                                       JL7016G Datasheet
+
+Pb-free - Classification Temperature        Table 6-3
+        Package                Volume mm3               Volume mm3    Volume mm3
+        Thickness                  < 350                 350 - 2000     > 2000
+
+        < 1.6mm                    260℃                    260℃         260℃
+
+     1.6 mm - 2.5mm                260℃                    250℃         245℃
+
+        > 2.5mm                    250℃                    245℃         245℃
+
+
+
+
+                                             17 / 19
+                                                                                     JL7016G Datasheet
+
+
+7    Storage Condition
+7.1 Moisture Sensitivity Level
+JL7016G is qualified to moisture sensitivity level MSL3 in accordance with JEDEC J-STD-033.
+
+7.2 Storage Alert
+     1. Calculated shelf life in sealed bag 12 months at＜40°C and 90% relative humidity (RH).
+     2. Peak package body temperature≤260°C.
+     3. After bag is opened,devices that will be subjected to reflow solder or other high temperature
+process must be mounted within 168 hours of factory conditions≤30°C/60%RH or stored per J-STD-033.
+     4. Devices require bake before mounting if humidity indicator card reads ＞ 10% for level 2a-5a
+devices or＞60% for level 2 devices when read at 23±5°C,or 3a or 3b are not met.
+     5. Please refer to IPC/JEDEC J-STD-033 for baking procedure if necessary.
+
+
+
+
+                                                18 / 19
+                                                                                JL7016G Datasheet
+
+
+8      Revision History
+      Date       Revision                                Description
+    2022.04.09    V1.0      Initial Release
+                            Add Block Diagram &IC Marking Information & Solder-Reflow
+    2022.06.08    V1.1
+                            Condition
+    2022.09.20    V1.2      Add Storage Condition & Update IC Marking Information
+    2023.03.01    V1.3      Update Features & Pin Description
+    2023.10.13    V1.4      Update JL7016G BT_Features
+                            Update JL7016G BT_Features（Meet class1 transmitting power
+    2023.12.27    V1.5
+                            requirement）
+                            Update Audio & PMU_Features
+    2024.08.09    V1.6
+                            Update IC Marking Information
+
+
+
+
+                                              19 / 19
+

@@ -1,0 +1,28 @@
+{
+	"nodes":[
+		{"id":"main","type":"file","file":"SDK UPDATE FIXING/MAIN CANVAS.canvas","x":-500,"y":-90,"width":300,"height":90,"color":"4"},
+		{"id":"gui_hub","type":"text","text":"GUI DOCUMENTATION CANVAS","x":-80,"y":-135,"width":360,"height":90,"color":"2"},
+		{"id":"assets","type":"text","text":"ASSETS folder holds all screenshots","x":-520,"y":-225,"width":340,"height":90,"color":"4"},
+		{"id":"idx","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/00 — GUI Documentation Index.md","x":-90,"y":80,"width":380,"height":90,"color":"3"},
+		{"id":"t2","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 02 — Common Config.md","x":440,"y":220,"width":320,"height":90,"color":"2"},
+		{"id":"t4","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 04 — Microphone Config.md","x":440,"y":480,"width":320,"height":90,"color":"4"},
+		{"id":"t3","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 03 — Call Config.md","x":440,"y":340,"width":320,"height":90,"color":"3"},
+		{"id":"t5","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 05 — Tone File Config.md","x":440,"y":630,"width":320,"height":90,"color":"5"},
+		{"id":"t6","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 06 — Volume Config.md","x":440,"y":765,"width":340,"height":90,"color":"6"},
+		{"id":"t1","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 01 — BT Config.md","x":440,"y":80,"width":320,"height":90},
+		{"id":"t7","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 07 — ANC Config.md","x":450,"y":920,"width":320,"height":90,"color":"1"},
+		{"id":"t8","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/TAB 08 — Device Info.md","x":450,"y":1080,"width":340,"height":90,"color":"#cfcf14"}
+	],
+	"edges":[
+		{"id":"ge1","fromNode":"main","fromSide":"right","toNode":"gui_hub","toSide":"left","color":"4"},
+		{"id":"ge2","fromNode":"gui_hub","fromSide":"bottom","toNode":"idx","toSide":"top","color":"3"},
+		{"id":"108dd6674750cc93","fromNode":"idx","fromSide":"bottom","toNode":"t1","toSide":"left"},
+		{"id":"d9debdf1e16e37de","fromNode":"idx","fromSide":"bottom","toNode":"t2","toSide":"left","color":"2"},
+		{"id":"b5cf663c4588ce12","fromNode":"idx","fromSide":"bottom","toNode":"t3","toSide":"left","color":"3"},
+		{"id":"751328d36a68a422","fromNode":"idx","fromSide":"bottom","toNode":"t4","toSide":"left","color":"4"},
+		{"id":"e440d72929d62f89","fromNode":"idx","fromSide":"bottom","toNode":"t5","toSide":"left","color":"5"},
+		{"id":"655d91c2dd319f3d","fromNode":"idx","fromSide":"bottom","toNode":"t6","toSide":"left","color":"6"},
+		{"id":"22cb5b48fa59f58f","fromNode":"idx","fromSide":"bottom","toNode":"t7","toSide":"left","color":"1"},
+		{"id":"7d1ef675e6838f61","fromNode":"idx","fromSide":"bottom","toNode":"t8","toSide":"left","color":"#cfcf14"}
+	]
+}

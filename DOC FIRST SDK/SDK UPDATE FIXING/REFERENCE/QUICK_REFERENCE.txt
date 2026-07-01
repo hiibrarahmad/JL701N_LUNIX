@@ -1,0 +1,40 @@
+# QUICK REFERENCE: PB1 Fix Deployed
+
+## FIRMWARE READY
+Location: `cpu/br28/tools/sdk.elf` (5.2 MB)
+Status: ✅ Built with 0 errors
+
+## WHAT TO EXPECT
+Touch PB1 → See: `[LP_KEY]CH1_DETECTED: type=X`
+
+## WHAT WAS WRONG
+- CH1 blocked at event dispatcher (line 192)
+- CH1 blocked at LONG press handler (line 1474)
+- Neither checked the enable flag
+
+## WHAT'S FIXED NOW
+Both blocks wrapped with `#if !TCFG_LP_EARTCH_PRIMARY_KEY_EVENT_ENABLE`
+- Flag = 1 (default) → CH1 ENABLED
+- Flag = 0 → CH1 disabled
+
+## DEPLOY & TEST
+1. Flash firmware to device
+2. Connect to logs/console
+3. Touch PB1
+4. Look for: `[LP_KEY]CH1_DETECTED`
+5. If you see it → SUCCESS ✓
+
+## FILES CHANGED
+- `cpu/br28/lp_touch_key.c`
+  - Line 192: Added flag check (event dispatcher)
+  - Line 209: Added debug printf
+  - Line 1474: Added flag check (LONG press)
+
+## GIT LOG
+```
+b5e276a CRITICAL FIX: Remove CH1 LONG press blocking
+b5ce1de DEBUG: Add CH1 touch detection logging
+```
+
+---
+**READY TO DEPLOY** - Touch PB1 will now be detected and logged.

@@ -1,0 +1,605 @@
+http://www.yunthinker.com   QQ:371116160                                 AC6966B Datasheet
+
+
+
+
+               AC6966B Datasheet
+
+
+            Zhuhai Jieli Technology Co.,LTD
+                                                                Version：V1.0
+
+                                                                Date：2020.06.01
+
+
+
+
+            Copyright © Zhuhai Jieli Technology Co.,LTD. All rights reserved.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+                                                 AC6966B Features
+CPU                                                                                    Supports two PDM digital MIC inputs
+       32-bit DSP supports hardware Float Point                                        Two channels Mono analog MUX
+       Unit (FPU)                                                                      Supports cap-less, single-ended, and
+       Up to 160MHz programmable processor                                             differential mode at the DAC path
+       64Vectored interrupts                                                           Supports 16ohm and 32ohm Speaker loading
+       4 Levels interrupt priority
+                                                                               Bluetooth
+DSP Audio Processing                                                                   Compliant with Bluetooth
+       SBC, AAC Audio decodes supported for BT                                         V5.1+BR+EDR+BLE specification
+       audio                                                                           Meet class1 class2 and class3 transmitting
+       mSBC voice codecs supported for BT phone                                        power requirement
+       Supports MP2, MP3, WMA, APE, FLAC,                                              Support GFSK and π/4 DQPSK all paket types
+       AAC, MP4, M4A, WAV, AIF, AIFC audio                                             Provides +6dbm transmitting power
+       decoding                                                                        receiver with -90dBm sensitivity
+       Packet Loss Concealment (PLC) for voice                                         Fast AGC for enhanced dynamic range
+       processing                                                                      Supports
+       Acoustic echo cancellation/suppression                                          a2dp\avctp\avdtp\avrcp\hfp\spp\smp\att\gap\g
+       (AEC,AES)                                                                       att\rfcomm\sdp\l2cap profile
+       Single/Dual MIC Environmental Noise
+       Cancellation (ENC)                                                      Peripherals
+       Multi-band DRC limiter                                                          One full speed USB 2.0 OTG controller
+       10-band EQ configuration for voice Effects                                      Six multi-function 32-bit timers, support
+                                                                                       capture and PWM mode
+Audio Codec                                                                            Three full-duplex basic UART, UART0 and
+       Two channels 16-bit DAC, SNR >= 95dB                                            UART1 supports DMA mode
+       One channels 16-bit ADC , SNR >= 90dB                                           Three SPI interface supports host and device
+       Sampling rates of                                                               mode
+       8KHz/11.025KHz/16KHz/22.05KHz/24KHz/                                            One hardware IIC interface supports host and
+       32KHz/44.1KHz/48KHz are supported                                               device mode
+       One analog MIC amplifier, build-in MIC bias                                     10-bit ADC for analog sampling
+       generator                                                                       External wake up/interrupt on all GPIOs
+
+PMU
+       Low voltage LDO for internal digital and analog circuit supply
+       3uA current consumption in the soft-off mode
+       Built-in LDO for the core, I/O, Bluetooth and flash
+       VBAT is 2.2V to 5.5V
+       VDDIO is 2.2V to 3.6V
+
+Packages
+       QFN32(4mm*4mm)
+                                                                           2
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+Temperature
+       Operating temperature: -20℃ to +70℃
+       Storage temperature: -65℃ to +150℃
+
+
+Applications
+       Bluetooth headset
+       Bluetooth Speaker
+
+
+
+
+                                                                           3
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+
+1、Pin Definition
+
+       1.1       Pin Assignment
+
+
+
+
+                                  Figure 1-1 AC6966B_QFN32 Package Diagram
+
+
+
+
+                                                                           4
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+         1.2     Pin Description
+
+                                        Table 1-1          AC6966B_QFN32 Pin Description
+
+   PIN                                  I/O         Drive
+                     Name                                             Function                               Other Function
+   NO.                                 Type         (mA)
+
+     1         DACVSS                    P             /                                  DAC Ground
+     2         VCOM                                    /
+     3         DACL                      O             /                                  DAC Left Channel
+     4         DACR                      O             /                                  DAC Right Channel
+                                                                                          SD0CLK_BF：SD0Clock(BF)
+                                                                                          AMUX1R：Analog Channel1Right;
+                                                                                          SPI2DOA：SPI2 Data Out(A);
+     5         PB7                      I/O          24/8        GPIO                     IIC_SDA_C：IIC DAT(C);
+                                                                                          ADC9：ADC Input Channel 9;
+                                                                                          PWM5：Timer5 PWM Output；
+                                                                                          UART1RXA：Uart1 Data In(A);
+                                                                                          AMUX1L：Analog Channel1 Left;
+                                                                                          SPI2CLKA：SPI2 Data Out(A);
+                                                                                          IIC_SCL_C：IIC SCL(C);
+     6         PB6                      I/O          24/8        GPIO
+                                                                                          ADC8：ADC Input Channel 8;
+                                                                                          TMR3：Timer3 Clock Input;
+                                                                                          UART1TXA：Uart1 Data Out(A);
+                                                                                          SPI0_DAT2A(2)：SPI0 Data2 Out_A(2);
+                                                                                          ADC7：ADC Input Channel 7;
+     7         PB4                      I/O          24/8        GPIO                     CLKOUT1
+                                                                                          UART2TXC：Uart2 Data Out(C);
+                                                                                          UART2RXC：Uart2 Data In(C);
+               LDO_IN                    P             /                                  Battery Charger In
+                                                                                          SPI2DIA：SPI2 Data Input(A)；
+                                                                 GPIO                     PWM3：Timer3 PWM Output；
+     8
+               PB5                      I/O            8         (High Voltage            CAP1：Timer1 Capture;
+                                                                 Resistance)              UART0TXC：Uart0 Data Out(C)；
+                                                                                          UART0RXC：Uart0 Data In(C);
+     9         VBAT                      P             /                                  Battery Power Supply
+    10         VDDIO                     P             /                                  IO Power 3.3v
+    11         BT_AVDD                   P             /                                  BT Power
+                                                                                          SD0DAT_D：SD0 Data(D);
+    12         PB3                      I/O            /         GPIO                     ADC6 ：ADC Input Channel 6;
+                                                                                          PWM2：Timer2 PWM Output；
+
+
+                                                                           5
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+                                                                                          UART2RXB ：Uart2 Data In(B);
+
+                                                                                          SD0CMD_D：SD0 Command(D)
+                                                                 GPIO
+                                                                                          SPI1DIA ：SPI1 Data In(A);
+    13       PB2                        I/O            8         (High Voltage
+                                                                                          CAP0：Timer0 Capture;
+                                                                 Resistance)
+                                                                                          UART2TXB：Uart2 Data Out (B)；
+                                                                                          Long Press Reset；
+                                                                                          SPI1DOA：SPI1 Data Out(A);
+                                                                                          ADC5：ADC Input Channel 5;
+                                                                 GPIO
+    14       PB1                        I/O          24/8                                 TMR2：Timer2 Clock Input;
+                                                                 (pull up)
+                                                                                          UART0RXB：Uart0 Data In(B);
+                                                                                          SPDIF_IN_D：Sony/Philips Digital
+                                                                                          Interface Input(D)
+                                                                                          SD0CLK_D：SD0Clock(D)
+                                                                                          SPI1CLKA：SPI1 Clock(A);
+                                                                 GPIO
+                                                                                          UART0TXB：Uart1 Data Out(B);
+    15       PB0                        I/O            8         (High Voltage
+                                                                                          TMR5：Timer5 Clock Input;
+                                                                 Resistance)
+                                                                                          SPDIF_IN_C：Sony/Philips Digital
+                                                                                          Interface Input(C)
+    16       FMIP                         /            /                                  FM Antenna
+    17       BT_RF                        /            /                                  BT Antenna
+    18       BT_SOCI                      I            /                                  BT OSC In
+    19       BT_SOCO                     O             /                                  BT OSC Out
+                                                                                          SD0CLK_AE ：SD0 Clock(AE)
+                                                                                          SPI1DOB ：SPI1 Data Out(B);
+                                                                                          IIC_SDA_B：IIC SDA(B);
+    20       PC5                        I/O          24/8        GPIO
+                                                                                          ADC12：ADC Input Channel 12;
+                                                                                          TMR1：Timer1 Clock Input;
+                                                                                          UART2RXD ：Uart2 Data In(D);
+                                                                                          SD0CMD_A ：SD0 Command(A);
+                                                                                          SPI0_DAT3AB(3)：SPI0 Data3(AB)；
+                                                                                          SPI1CLKB ：SPI1 Clock(B);
+    21       PC4                        I/O          24/8        GPIO                     IIC_SCL_B：IIC SCL(B);
+                                                                                          ADC11：ADC Input Channel 11;
+                                                                                          PWM1：Timer1 PWM Output；
+                                                                                          UART2TXD：Uart2 Data Out (D)；
+                                                                                          SD0DAT_A：SD0 Data(A);
+                                                                                          SPI0_DAT2B(2)：SPI0 Data2(B)；
+                                                                                          SPI1DIB ：SPI1 Data In(B);
+    22       PC3                        I/O          24/8        GPIO
+                                                                                          CAP2：Timer2 Capture;
+                                                                                          UART0TXD：Uart0 Data Out (D)；
+                                                                                          UART0RXD ：Uart0 Data In(D);
+    23       PC2                        I/O          24/8                                 SPI0_DIB(1)：SPI0 Data Input(B)；
+
+                                                                           6
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+                                                                                          ALNK_MCLK_B：ALNK Master
+                                                                                          Clock(B)；
+                                                                                          ADC10：ADC Input Channel 10;
+                                                                                          CAP5：Timer5 Capture;
+                                                                                          UART1RXB：Uart1 Data In(B);
+                                                                                          SPI2DOB ：SPI2 Data Out(B);
+                                                                 USB Negative
+                                                                                          IIC_SDA_A：IIC SDA(A);
+    24       USBDM                      I/O            4         Data
+                                                                                          ADC14：ADC Input Channel 14;
+                                                                 (pull down)
+                                                                                          UART1RXD ：Uart1 Data In(D);
+                                                                                          SPI2CLKB ：SPI2 Clock(B);
+                                                                 USB Positive
+                                                                                          IIC_SCL_A：IIC SCL(A);
+    25       USBDP                      I/O            4         Data
+                                                                                          ADC13：ADC Input Channel 13;
+                                                                 (pull down)
+                                                                                          UART1TXD：Uart1 Data Output(D)；
+                                                                                          ALNK_DAT3_A：Audio Link Data3_A;
+                                                                                          ALNK_LRCK_B：Audio Link Word
+                                                                                          Select(B);
+                                                                                          IIC_SDA_D：IIC SDA(D);
+    26       PA6                        I/O          24/8                                 ADC4：ADC Input Channel 4;
+                                                                                          CAP4：Timer4 Capture;
+                                                                                          UART0RXA：Uart0 Data In(A);
+                                                                                          SPDIF_IN_B：Sony/Philips Digital
+                                                                                          Interface Input(B)
+                                                                                          ALNK_DAT2_A：Audio Link Data2_A;
+                                                                                          ALNK_SCLK_B：Audio Link Serial
+                                                                                          Clock(B);
+                                                                                          IIC_SCL_D：IIC SCL(D);
+    27       PA5                        I/O          24/8
+                                                                                          PWM0：Timer0 PWM Output；
+                                                                                          UART0TXA：Uart0 Data Output(A)；
+                                                                                          SPDIF_IN_A：Sony/Philips Digital
+                                                                                          Interface Input(A)
+                                                                                          SD0CMD_CE：SD0 Command(CE)
+                                                                                          AMUX0R：Analog Channel0 Right;
+                                                                                          PLNK_DAT1：PLNK Data1；
+                                                                                          ALNK_LRCK_A：Audio Link Word
+                                                                                          Select(A);
+    28       PA4                        I/O          24/8
+                                                                                          ALNK_DAT3_B：Audio Link Data3_B;
+                                                                                          UART1_RTS：Uart1 Request to send；
+                                                                                          ADC3：ADC Input Channel 3;
+                                                                                          TMR4：Timer4 Clock Input;
+                                                                                          UART2RXA：Uart2 Data In(A);
+                                                                                          SD0DAT_C：SD0 Data(C);
+    29       PA3                        I/O          24/8                                 AMUX0L：Analog Channel0 Left;
+                                                                                          PLNK_SCLK：PLNK Serial Clock；
+
+                                                                           7
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+                                                                                          ALNK_SCLK_A：Audio Link Serial
+                                                                                          Clock(A)；
+                                                                                          ALNK_DAT2_B：Audio Link Data2_B;
+                                                                                          UART1_CTS：Uart1 Clear to send；
+                                                                                          ADC2：ADC Input Channel 3;
+                                                                                          PWM5：Timer5 PWM Output；
+                                                                                          UART2TXA：Uart1 Data Output(D)；
+                                                                                          SD0CLK_C：SD0 Clock(C);
+                                                                                          MIC_BIAS：Microphone Bias Output
+                                                                                          ALNK_MCLK_A：ALNK Master
+    30       PA2                        I/O          24/8        GPIO
+                                                                                          Clock_A;
+                                                                                          ALNK_DAT1_B：Audio Link Data1_B;
+                                                                                          CAP3：Timer3 Capture;
+                                                                                          MIC：MIC Input Channel ;
+                                                                                          ADC1：ADC Input Channel 1;
+    31       PA1                          I          24/8
+                                                                                          PWM4：Timer4 PWM Output；
+                                                                                          UART1RXC：Uart0 Data In(C);
+                                                                                          SDPG：SD Power Supply
+                                                                                          ALNK_DAT0_A：Audio Link Data0_A;
+                                                                                          ALNK_DAT0_B：Audio Link Data0_B;
+    32       PA0                        I/O            /
+                                                                                          ADC0：ADC Input Channel 0;
+                                                                                          CLKOUT0
+                                                                                          UART1TXC：Uart1 Data Output(C)；
+
+
+
+
+                                                                           8
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+
+2、Electrical Characteristics
+
+       2.1 Absolute Maximum Ratings
+
+                                                                     Table 2-1
+          Symbol                                   Parameter                                       Min                Max              Unit
+           Tamb          Ambient Temperature                                                        -20                +70               °C
+            Tstg         Storage temperature                                                        -65               +150               °C
+           VBAT          Supply Voltage                                                             2.2                5.5               V
+           V3.3IO        3.3V IO Input Voltage                                                      -0.3          VDDIO+0.3              V
+         LDO_IN          Charge Input Voltage                                                       -0.3               5.5               V
+
+
+
+       2.2           PMU Characteristics
+
+                                                                     Table 2-2
+          Symbol            Parameter             Min        Typ         Max         Unit                    Test Conditions
+         LDO_IN          Loading current            _          _         300         mA                        VBAT = 4.2V
+           VBAT            Voltage Input           2.2        3.7         5.5         V
+           VDVDD          Voltage output           0.9        1.2        1.25         V           VBAT = 4.2V, 30mA loading
+          VVDDIO          Voltage output            _         3.3          _          V           VBAT = 4.2V, 100mA loading
+         VBT_AVDD        Voltage output                       1.3                     V           VBAT=4.2V, 100mA loading
+
+
+
+       2.3           Battery Charge
+
+                                                                     Table 2-3
+          Symbol            Parameter             Min        Typ         Max         Unit                    Test Conditions
+                           Charge Input
+         LDO_IN                                    4.5         5          5.5         V                                _
+                              Voltage
+
+           VCharge       Charge Voltage           4.15        4.2        4.25         V                                _
+
+
+           ICharge        Charge Current           20                    300         mA           Charge current at fast charge mode
+
+                          Trickle Charge
+            ITrikl                                 20         45          70         mA                           VBAT<V Trikl
+                              Current
+
+
+
+
+                                                                           9
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+
+  2.4        IO Input/Output Electrical Logical Characteristics
+
+                                                                       Table 2-4
+        IO input characteristics
+         Symbol         Parameter                       Min            Typ               Max             Unit           Test Conditions
+                           Low-Level Input
+            VIL                                         -0.3             _          0.3* VDDIO             V             VDDIO = 3.3V
+                              Voltage
+                          High-Level Input             0.7*
+            VIH                                                          _          VDDIO+0.3              V             VDDIO = 3.3V
+                              Voltage                 VDDIO
+        IO output characteristics
+                          Low-Level Output
+            VOL                                             _            _               0.33              V             VDDIO = 3.3V
+                              Voltage
+                         High-Level Output
+            VOH                                          2.7             _                _                V             VDDIO = 3.3V
+                              Voltage
+
+
+    2.5        Internal Resistor Characteristics
+
+                                                                       Table 2-5
+                                                                              Internal          Internal
+                                        General
+                  Port                                  High Drive            Pull-Up          Pull-Down                 Comment
+                                        Output
+                                                                              Resistor          Resistor
+               PA2~PA6
+               PB1,PB4
+                                          8mA                   24mA              10K            10K
+               PB6,PB7                                                                                          1、PB1 default pull up
+               PC2~PC5                                                                                          2、USBDM & USBDP
+                    Output 0              8mA                   24mA                                              default pull down
+          PA0                                                                                                   3、internal
+                                                                                  10K            10K
+          PB3       Output 1              8mA                   64mA                                              pull-up/pull-down
+                                                                                                                  resistance | accuracy
+           PB0, PB2, PB5                  8mA                    _                10K            10K
+                                                                                                                  ±20%
+                USBDP                     4mA                    _                1.5K           15K
+
+                USBDM                     4mA                    _                180K           15K
+
+
+    2.6 DAC Characteristics
+
+                                                                       Table 2-6
+                    Parameter                         Min               Typ              Max           Unit            Test Conditions
+              Frequency Response                       20                _               20K            Hz
+                      THD+N                             _               -75               _             dB                1KHz/0dB
+                         S/N                            _               95                _             dB             10Kohm loading
+                     Crosstalk                          _               -90               _             dB        With A-Weighted Filter
+                  Output Swing                                           1                            Vrms
+                                                                                                                         1KHz/-60dB
+                  Dynamic Range                                         90                              dB             10Kohm loading
+                                                                                                                  With A-Weighted Filter
+                DAC Output Power                       11                                 _            mW               32ohm loading
+
+                                                                             10
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+
+         2.7         ADC Characteristics
+
+                                                                     Table 2-7
+                    Parameter                         Min              Typ              Max            Unit            Test Conditions
+                 Dynamic Range                                          80                              dB               1KHz/-60dB
+                         S/N                            _               90               91             dB
+                      THD+N                             _              -70                _             dB               1KHz/-60dB
+                     Crosstalk                          _              -90                _             dB
+
+
+
+         2.8         BT Characteristics
+
+        2.8.1 Transmitter
+
+       Basic Data Rate                                                Table 2-8
+                    Parameter                         Min              Typ              Max            Unit            Test Conditions
+
+               RF Transmit Power                                        4                 6           dBm
+
+            RF Power Control Range                                      20                              dB        25℃,
+                 20dB Bandwidth                                        950                             KHz
+                                                                                                                  Power Supply
+                                    +2MHz                              -40                            dBm
+                                                                                                                  VBAT=5V
+         Adjacent Channel           -2MHz                              -38                            dBm
+                                                                                                                  2441MHz
+          Transmit Power            +3MHz                              -44                            dBm
+
+                                    -3MHz                              -35                            dBm
+
+
+       Enhanced Data Rate                                             Table 2-9
+                          Parameter                             Min              Typ          Max          Unit          Test Conditions
+
+                       Relative Power                                            -1                          dB
+
+                                        DEVM RMS                                  6                          %
+               π/4 DQPSK
+                                                                                                                      25℃,
+                                         DEVM 99%                                10                          %
+         Modulation Accuracy
+                                         DEVM Peak                               15                          %        Power Supply
+
+                                            +2MHz                                -40                      dBm         VBAT=5V
+           Adjacent Channel                 -2MHz                                -38                      dBm         2441MHz
+            Transmit Power                  +3MHz                                -44                      dBm
+
+                                            -3MHz                                -35                      dBm
+
+
+
+
+                                                                            11
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+        2.7.2       Receiver
+       Basic Data Rate                                                Table 2-10
+                          Parameter                             Min            Typ          Max            Unit          Test Conditions
+
+                          Sensitivity                                          -90                        dBm
+
+            Co-channel Interference Rejection                                  -13                          dB
+                                                                                                                      25℃,
+                                            +1MHz                              +5                           dB
+
+                                            -1MHz                              +2                           dB        Power Supply
+
+           Adjacent Channel                 +2MHz                              +37                          dB        VBAT=5V
+
+        Interference Rejection              -2MHz                              +36                          dB        2441MHz
+                                            +3MHz                              +40                          dB
+
+                                            -3MHz                              +35                          dB
+       Enhanced Data Rate                                         Table 2-11
+                          Parameter                             Min            Typ          Max            Unit          Test Conditions
+
+                          Sensitivity                                          -90                        dBm
+
+            Co-channel Interference Rejection                                  -13                          dB
+                                                                                                                      25℃,
+                                            +1MHz                              +5                           dB
+
+                                            -1MHz                              +2                           dB        Power Supply
+
+           Adjacent Channel                 +2MHz                              +37                          dB        VBAT=5V
+
+        Interference Rejection              -2MHz                              +36                          dB        2441MHz
+                                            +3MHz                              +40                          dB
+
+                                            -3MHz                              +35                          dB
+
+
+
+         2.9         FM Receiver Characteristics
+
+                                                                    Table 2-12
+                    Parameter                       Min            Typ           Max          Unit                 Test Conditions
+                 Input Frequency                     76                          108          MHz
+                                                                                             dBμV
+                Usable Sensitivity                    3              4               8                   (S+N)/N=26dB
+                                                                                              EMF
+         Adjacent Channel Selectivity                               48                         dB        ± 200kHz
+                                                                                              dbμV
+                        IIP3                                        88                                   Δf1=200 kHz,Δf2=400 kHz
+                                                                                              EMF
+             Audio Output Voltage                     0                              3          V        Empty Load
+          Audio Frequency Response                   20                          20k           Hz        DacTest
+                 Audio (S+N)/N                                      58                         dB
+                Stereo Separation                                   40                         dB
+             Audio Total Harmonic
+                                                                   0.4                          %
+                Distortion (THD)
+
+                                                                          12
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+
+3、 Package Information
+       3.1       QFN32(4mm*4mm)
+
+
+
+
+                                           Figure 3-1. AC6966B_QFN32 Package
+
+
+
+
+                                                                          13
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+http://www.yunthinker.com                QQ:371116160                                                                          AC6966B Datasheet
+
+
+
+
+4、 Revision History
+        Date               Revision                                                      Description
+    2020.06.01                V1.0            Initial Release
+
+
+
+
+                                                                          14
+Confidential
+The information contained herein is the exclusive property of JIELI and shall not be distributed, reproduced, or disclosed in whole or in part without
+prior written permission of JIELI.
+

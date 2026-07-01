@@ -1,0 +1,28 @@
+{
+	"nodes":[
+		{"id":"main_hub","type":"text","text":"📚 JL7016G SDK\nDocumentation","x":-150,"y":-720,"width":360,"height":120,"color":"4"},
+		{"id":"note","type":"text","text":"Organized Structure:\nGUIDES • ARCHITECTURE • FIXING • UPDATE • GUI • REFERENCE","x":-140,"y":-920,"width":340,"height":120,"color":"5"},
+		{"id":"guides_readme","type":"file","file":"SDK UPDATE FIXING/GUIDES/README.md","x":-680,"y":-400,"width":380,"height":110,"color":"1"},
+		{"id":"arch_readme","type":"file","file":"SDK UPDATE FIXING/ARCHITECTURE/README.md","x":-280,"y":-400,"width":380,"height":110,"color":"2"},
+		{"id":"fixing_canvas","type":"file","file":"SDK UPDATE FIXING/FIXING/00 - FIXING.canvas","x":180,"y":-400,"width":380,"height":110,"color":"6"},
+		{"id":"update_canvas","type":"file","file":"SDK UPDATE FIXING/UPDATE/00 - UPDATE.canvas","x":-680,"y":-200,"width":380,"height":110,"color":"3"},
+		{"id":"gui_canvas","type":"file","file":"SDK UPDATE FIXING/GUI DOCUMENTATION/00 - GUI DOCUMENTATION.canvas","x":-280,"y":-200,"width":380,"height":110,"color":"5"},
+		{"id":"ref_readme","type":"file","file":"SDK UPDATE FIXING/REFERENCE/README.md","x":180,"y":-200,"width":380,"height":110,"color":"7"},
+		{"id":"fix015","type":"file","file":"SDK UPDATE FIXING/FIXING/FIX-022 — Right Bud Vol Up Left Bud Vol Down Channel-Aware Dispatch.md","x":580,"y":-300,"width":380,"height":110,"color":"3"},
+		{"id":"mac_index","type":"file","file":"SDK UPDATE FIXING/UPDATE/MAC ADDRESS PROVISIONING/00 - MAC ADDRESS PROVISIONING INDEX.md","x":-680,"y":50,"width":520,"height":120,"color":"6"},
+		{"id":"boot_analysis","type":"file","file":"SDK UPDATE FIXING/UPDATE/BOOT LOG DEEP ANALYSIS/00 - BOOT LOG DEEP ANALYSIS INDEX.md","x":-100,"y":50,"width":520,"height":120,"color":"3"},
+		{"id":"tws_doc","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/TWS DEEP DIVE — Reconnect Lag, Bud Identity, MAC Strategy, and Risks.md","x":540,"y":50,"width":560,"height":130,"color":"1"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"main_hub","fromSide":"bottom","toNode":"guides_readme","toSide":"top","color":"1","label":"Quick Start"},
+		{"id":"e2","fromNode":"main_hub","fromSide":"bottom","toNode":"arch_readme","toSide":"top","color":"2","label":"System Design"},
+		{"id":"e3","fromNode":"main_hub","fromSide":"bottom","toNode":"fixing_canvas","toSide":"top","color":"6","label":"Fixes 001-022"},
+		{"id":"e4","fromNode":"main_hub","fromSide":"bottom","toNode":"update_canvas","toSide":"top","color":"3","label":"Deep Docs"},
+		{"id":"e5","fromNode":"main_hub","fromSide":"bottom","toNode":"gui_canvas","toSide":"top","color":"5","label":"Configuration"},
+		{"id":"e6","fromNode":"main_hub","fromSide":"bottom","toNode":"ref_readme","toSide":"top","color":"7","label":"Reference"},
+		{"id":"e7","fromNode":"fixing_canvas","fromSide":"right","toNode":"fix015","toSide":"left","color":"6","label":"Latest FIX"},
+		{"id":"e8","fromNode":"update_canvas","fromSide":"bottom","toNode":"mac_index","toSide":"top","color":"6","label":"MAC Config"},
+		{"id":"e9","fromNode":"update_canvas","fromSide":"bottom","toNode":"boot_analysis","toSide":"top","color":"3","label":"Boot Analysis"},
+		{"id":"e10","fromNode":"update_canvas","fromSide":"right","toNode":"tws_doc","toSide":"left","color":"1","label":"TWS Details"}
+	]
+}

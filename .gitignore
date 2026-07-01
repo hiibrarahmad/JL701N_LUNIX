@@ -1,0 +1,16 @@
+cpu/br28/tools/*.elf
+cpu/br28/tools/*.lst
+cpu/br28/tools/text.bin
+cpu/br28/tools/data.bin
+cpu/br28/tools/app.bin
+cpu/br28/tools/aec.bin
+cpu/br28/tools/aac.bin
+cpu/br28/tools/mov_slot.bin
+cpu/br28/tools/data_code.bin
+cpu/br28/tools/psr_data_code.bin
+cpu/br28/tools/symbol_tbl.txt
+cpu/br28/tools/isd_config.ini
+build/
+*.o
+*.d
+*.map

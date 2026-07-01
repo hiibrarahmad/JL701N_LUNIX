@@ -1,0 +1,83 @@
+#!/bin/bash
+# host-client — Jieli BR28/AC701N Linux firmware flash helper
+# In forced-download / uboot mode the IC presents as:
+#   USB VID 0x4c4a  PID 0x3442  "BR28UBOOT1.00"
+#   Linux device:   /dev/sg0 (SCSI generic)
+#
+# Usage (called from cpu/br28/tools/ by download.sh):
+#   host-client -project <name> -f file1 file2 ...
+
+PROJ=""
+FILES=()
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -project) PROJ="$2"; shift 2 ;;
+        -f) shift; while [[ $# -gt 0 && "$1" != -* ]]; do FILES+=("$1"); shift; done ;;
+        *) shift ;;
+    esac
+done
+
+ISD="./isd_download"
+FW_ADD="./fw_add"
+
+[[ -x "$ISD" ]] || { echo "[host-client] ERROR: ./isd_download not executable." >&2; exit 1; }
+
+# ── Find Jieli device ─────────────────────────────────────────────────────────
+# USB VID is on the parent USB node; use --attribute-walk to reach it.
+find_jl_dev() {
+    for d in /dev/sg{0..15} /dev/sd{a..z}; do
+        [[ -e "$d" ]] || continue
+        vid=$(udevadm info --attribute-walk --name="$d" 2>/dev/null \
+              | awk '/ATTRS\{idVendor\}=/{match($0,/=="([^"]+)"/,m); print m[1]; exit}')
+        [[ "$vid" == "4c4a" ]] && echo "$d" && return 0
+    done
+    return 1
+}
+
+DEV=$(find_jl_dev || true)
+
+if [[ -z "$DEV" ]]; then
+    echo ""
+    echo "[host-client] ERROR: Jieli IC not found (USB VID 0x4c4a / BR28UBOOT)."
+    echo "  Expected:  lsusb shows  ID 4c4a:3442 BR28UBOOT1.00"
+    echo "  Expected:  Linux device /dev/sg0"
+    echo ""
+    echo "  To enter forced-download mode:"
+    echo "    1. Connect the download dongle USB to PC"
+    echo "    2. Press the download button — red LED goes solid"
+    echo "    3. Run make again"
+    echo ""
+    exit 1
+fi
+
+echo "[host-client] Device: $DEV  (project: $PROJ)"
+
+# ── Build updated firmware image ──────────────────────────────────────────────
+FW_IN="download/earphone/jl_isd.fw"
+FW_OUT="download/earphone/jl_isd_linux.fw"
+
+if [[ -x "$FW_ADD" && -f "$FW_IN" && -f "app.bin" ]]; then
+    echo "[host-client] Patching firmware with new app.bin..."
+    "$FW_ADD" -fw "$FW_IN" -out "$FW_OUT" -add app.bin
+    FLASH_FILE="$FW_OUT"
+elif [[ -f "download/earphone/jl_isd.bin" ]]; then
+    echo "[host-client] WARNING: using existing jl_isd.bin (may be stale)"
+    FLASH_FILE="download/earphone/jl_isd.bin"
+else
+    FLASH_FILE="app.bin"
+fi
+
+echo "[host-client] Flashing $FLASH_FILE → $DEV ..."
+
+{
+    echo "open $DEV"
+    echo "wr 1 br28loader.bin"
+    sleep 3
+    echo "wd $FLASH_FILE"
+    sleep 1
+    echo "quit"
+} | "$ISD"
+
+RC=${PIPESTATUS[1]}
+[[ $RC -eq 0 ]] && echo "[host-client] Flash complete." || echo "[host-client] isd_download exited with code $RC"
+exit $RC

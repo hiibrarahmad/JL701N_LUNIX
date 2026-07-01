@@ -1,0 +1,37 @@
+{
+	"nodes":[
+		{"id":"dl_hub","type":"text","text":"DOC LIBRARY CANVAS\n(all sections synced)","x":-70,"y":-760,"width":360,"height":110,"color":"3"},
+		{"id":"d2","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/BOARD — JL7016G Hybrid Config Deep Study.md","x":-145,"y":-480,"width":390,"height":80,"color":"2"},
+		{"id":"d5","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/IN-EAR DETECTION TROUBLESHOOTING.md","x":430,"y":-480,"width":420,"height":160,"color":"5"},
+		{"id":"d4","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/IN-EAR DETECTION — CTMU Capacitive Sensing, GPIO Mapping, State Machine.md","x":430,"y":-240,"width":420,"height":253,"color":"5"},
+		{"id":"d9","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/AUDIO DEEP DIVE — TWS Streaming, Sync, Reconnection Delays & Glitches.md","x":-1280,"y":-480,"width":500,"height":160,"color":"1"},
+		{"id":"d10","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/AUDIO CODEC QUALITY — Supported Codecs, Bitrates & Configuration.md","x":-1280,"y":-190,"width":500,"height":150,"color":"1"},
+		{"id":"d14","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/TWS DEEP DIVE — Reconnect Lag, Bud Identity, MAC Strategy, and Risks.md","x":-1280,"y":48,"width":500,"height":130,"color":"1"},
+		{"id":"d1","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/00 - SDK Progress Tracker.md","x":-680,"y":-512,"width":380,"height":112,"color":"6"},
+		{"id":"d3","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/MAIN MIC INTEGRATION — Current SDK Path, Wiring, and Bring-up.md","x":1080,"y":-495,"width":480,"height":175,"color":"4"},
+		{"id":"d13","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/POWER DEEP DIVE — Charging Wake, Low Power, and Reconnect Latency.md","x":1080,"y":-240,"width":480,"height":115,"color":"4"},
+		{"id":"d7","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/UART LOGGING NOTE — Touch Bring-up, Pin, Baud, and Terminal Setup.md","x":430,"y":320,"width":420,"height":222,"color":"5"},
+		{"id":"d8","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/FEATURE AUDIT — Playback Controls, Call Controls, Volume, Voice Assistant, In-Ear Detection.md","x":430,"y":70,"width":420,"height":153,"color":"5"},
+		{"id":"d6","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/TOUCH FEEDBACK PLAN — Event Model, UX Options, and Implementation Roadmap.md","x":430,"y":680,"width":420,"height":160,"color":"5"},
+		{"id":"d12","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/CONFIG GUI FIELD REFERENCE — Every Tab Every Option Explained.md","x":-210,"y":-300,"width":520,"height":175,"color":"2"},
+		{"id":"d11","type":"file","file":"SDK UPDATE FIXING/UPDATE/DOC LIBRARY/CONFIG GUI DEEP DIVE — AC701N Config Tool Online Offline Workflow.md","x":-190,"y":-45,"width":500,"height":158,"color":"2"},
+		{"id":"update_canvas","type":"file","file":"SDK UPDATE FIXING/UPDATE/00 - UPDATE.canvas","x":-550,"y":-1040,"width":340,"height":95,"color":"4"}
+	],
+	"edges":[
+		{"id":"de0","fromNode":"update_canvas","fromSide":"right","toNode":"dl_hub","toSide":"left","color":"4"},
+		{"id":"de1","fromNode":"dl_hub","fromSide":"bottom","toNode":"d1","toSide":"top","color":"6"},
+		{"id":"de2","fromNode":"dl_hub","fromSide":"bottom","toNode":"d2","toSide":"top","color":"2"},
+		{"id":"de3","fromNode":"dl_hub","fromSide":"bottom","toNode":"d3","toSide":"top","color":"4"},
+		{"id":"de4","fromNode":"dl_hub","fromSide":"bottom","toNode":"d4","toSide":"top","color":"5"},
+		{"id":"de5","fromNode":"dl_hub","fromSide":"bottom","toNode":"d5","toSide":"top","color":"5"},
+		{"id":"de6","fromNode":"dl_hub","fromSide":"bottom","toNode":"d6","toSide":"top","color":"5"},
+		{"id":"de7","fromNode":"dl_hub","fromSide":"bottom","toNode":"d7","toSide":"top","color":"5"},
+		{"id":"de8","fromNode":"dl_hub","fromSide":"bottom","toNode":"d8","toSide":"top","color":"5"},
+		{"id":"de9","fromNode":"dl_hub","fromSide":"bottom","toNode":"d9","toSide":"top","color":"1"},
+		{"id":"de10","fromNode":"dl_hub","fromSide":"bottom","toNode":"d10","toSide":"top","color":"1"},
+		{"id":"de11","fromNode":"dl_hub","fromSide":"bottom","toNode":"d11","toSide":"top","color":"2"},
+		{"id":"de12","fromNode":"dl_hub","fromSide":"bottom","toNode":"d12","toSide":"top","color":"2"},
+		{"id":"de13","fromNode":"dl_hub","fromSide":"bottom","toNode":"d13","toSide":"top","color":"4"},
+		{"id":"de14","fromNode":"dl_hub","fromSide":"bottom","toNode":"d14","toSide":"top","color":"1"}
+	]
+}
