@@ -233,9 +233,12 @@
 #define CONFIG_TWS_EXTERN_UP_AS_LEFT          5 //外部有上拉电阻作为左耳
 #define CONFIG_TWS_EXTERN_DOWN_AS_LEFT        6 //外部有下拉电阻作为左耳
 #define CONFIG_TWS_SECECT_BY_CHARGESTORE      7 //充电仓决定左右耳
-#define CONFIG_TWS_CHANNEL_SELECT             CONFIG_TWS_EXTERN_DOWN_AS_LEFT //配对方式选择
-// #define CONFIG_TWS_CHANNEL_SELECT             CONFIG_TWS_AS_LEFT_CHANNEL
-// #define CONFIG_TWS_CHANNEL_SELECT             CONFIG_TWS_AS_RIGHT_CHANNEL
+/* Channel determined at compile time from THIS_BUD in board config — no PC5 pin needed */
+#if (THIS_BUD == BUD_RIGHT)
+#define CONFIG_TWS_CHANNEL_SELECT             CONFIG_TWS_AS_RIGHT_CHANNEL
+#else
+#define CONFIG_TWS_CHANNEL_SELECT             CONFIG_TWS_AS_LEFT_CHANNEL
+#endif
 
 #define CONFIG_TWS_CHANNEL_CHECK_IO           IO_PORTC_05					//上下拉电阻检测引脚
 

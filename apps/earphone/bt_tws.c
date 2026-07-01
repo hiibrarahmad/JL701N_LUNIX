@@ -973,54 +973,41 @@ int bt_tws_poweron()
         }
 
     } else {
-        printf("\n ---------no tws info----------\n");
+        printf("\n ---------no tws info: using fixed MAC from board config----------\n");
 
-        EARPHONE_STATE_TWS_INIT(0);
+        /* Sibling MAC is known at compile time from board config.
+         * No PC5 pin or pairing handshake needed — just connect directly. */
+#if (THIS_BUD == BUD_LEFT)
+        u8 fixed_sibling[] = P1_RIGHT_MAC;
+#else
+        u8 fixed_sibling[] = P1_LEFT_MAC;
+#endif
+        syscfg_write(CFG_TWS_REMOTE_ADDR, fixed_sibling, 6);
 
-        // no_tws for test
-        //EARPHONE_STATE_TWS_INIT(1);
-        //EARPHONE_STATE_SET_PAGE_SCAN_ENABLE();
+        gtws.state |= BT_TWS_PAIRED;
+        EARPHONE_STATE_TWS_INIT(1);
 
-
-        gtws.state |= BT_TWS_UNPAIRED;
+        tws_api_set_sibling_addr(fixed_sibling);
         if (set_channel_by_code_or_res() == 0) {
-            tws_api_set_local_channel('U');
+            channel = bt_tws_get_local_channel();
+            tws_api_set_local_channel(channel);
         }
 #if TCFG_TEST_BOX_ENABLE
         if (testbox_get_status()) {
         } else
 #endif
         {
-
-#if CONFIG_TWS_PAIR_MODE == CONFIG_TWS_PAIR_BY_AUTO
-            /*
-             * 未配对, 开始自动配对
-             */
 #ifdef CONFIG_NEW_BREDR_ENABLE
-            tws_api_set_quick_connect_addr(tws_set_auto_pair_code());
-#else
-            tws_auto_pair_enable = 1;
-            tws_le_acc_generation_init();
-#endif
-            bt_tws_connect_sibling(6);
-
-#else
-#if CONFIG_TWS_PAIR_MODE == CONFIG_TWS_PAIR_BY_CLICK
-            if (result == VM_INDEX_ERR) {
-                printf("tws_get_sibling_addr index_err and bt_tws_start_search_sibling =%d\n", result);
-                bt_tws_start_search_sibling();
-            } else
-#endif
-            {
-                /*
-                 * 未配对, 等待发起配对
-                 */
-                bt_tws_connect_and_connectable_switch();
-                /*tws_api_create_connection(0);*/
-                /*bt_tws_search_sibling_and_pair();*/
-
+            u8 local_addr[6];
+            u8 quick_addr[6];
+            syscfg_read(CFG_TWS_LOCAL_ADDR, local_addr, 6);
+            memcpy(quick_addr, fixed_sibling, 6);
+            for (int i = 0; i < 6; i++) {
+                quick_addr[i] += local_addr[i];
             }
+            tws_api_set_quick_connect_addr(quick_addr);
 #endif
+            bt_tws_connect_sibling(CONFIG_TWS_CONNECT_SIBLING_TIMEOUT);
         }
     }
 
