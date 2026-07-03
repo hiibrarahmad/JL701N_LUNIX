@@ -176,17 +176,49 @@ static u16 long_event_res_avg[5] = {0, 0, 0, 0, 0};
 static const u8 _ch_priv[5] = {0, 1, 2, 3, 4};
 
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-/* Debounce the CH1 RAISING event so spurious releases from the in-ear
- * detection algorithm do not glitch PC3 HIGH during a held touch.
- * PC3 only goes HIGH if RAISING persists for PB1_RELEASE_DEBOUNCE_MS
- * with no new FALLING event cancelling it. */
+/* PC3 is driven from eartch_diff (= current_res − fixed_trim_value).
+ * The trim is a one-time calibration constant and NEVER adapts — so
+ * eartch_diff stays high for as long as the finger is physically present,
+ * regardless of how long the hold lasts (immune to the P33 IIR drift that
+ * caused the ~80s false RAISING bug).
+ *
+ * FALLING still drives PC3 LOW immediately for fast first response.
+ * The RAISING handler no longer writes PC3 — that role is taken by the
+ * RES_EVENT poll which checks eartch_diff every scan cycle.
+ * A 150ms debounce on the release path prevents brief noise glitches. */
 #define PB1_RELEASE_DEBOUNCE_MS  150
 static u16 pb1_debounce_timer = 0;
+static u8  pb1_eartch_touch_state = 0;  /* 0=released, 1=held */
 
 static void pb1_led_release_debounce_cb(void *priv)
 {
     pb1_debounce_timer = 0;
+    pb1_eartch_touch_state = 0;
     gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL); /* HIGH = released */
+}
+
+/* Called from RES_EVENT on every CTMU measurement cycle.
+ * eartch_diff uses the fixed trim calibration — immune to long-hold drift. */
+static void pb1_led_update_from_eartch_diff(u16 eartch_diff, u16 outear_threshold)
+{
+    u8 is_touched = (eartch_diff > outear_threshold);
+    if (is_touched && !pb1_eartch_touch_state) {
+        /* not-touched → touched */
+        pb1_eartch_touch_state = 1;
+        if (pb1_debounce_timer) {
+            usr_timer_del(pb1_debounce_timer);
+            pb1_debounce_timer = 0;
+        }
+        gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, !TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL); /* LOW */
+    } else if (!is_touched && pb1_eartch_touch_state) {
+        /* touched → not-touched: start debounce */
+        pb1_eartch_touch_state = 0;
+        if (!pb1_debounce_timer) {
+            pb1_debounce_timer = usr_timeout_add(NULL, pb1_led_release_debounce_cb,
+                                                 PB1_RELEASE_DEBOUNCE_MS, 1);
+        }
+    }
+    /* if state unchanged: no-op (runs every scan cycle, must be cheap) */
 }
 #endif
 
@@ -1514,6 +1546,15 @@ void p33_ctmu_key_event_irq_handler()
                 }
             }
 
+#if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
+            /* Drive PC3 from the fixed-trim eartch_diff (not the adaptive IIR).
+             * Only useful once trim calibration has succeeded. */
+            if (__this->eartch_inear_ok) {
+                pb1_led_update_from_eartch_diff(eartch_diff,
+                                                __this->config->eartch_soft_outear_val);
+            }
+#endif
+
         }
 #endif
         break;
@@ -1592,12 +1633,15 @@ void p33_ctmu_key_event_irq_handler()
         log_debug("falling_res_avg: %d", falling_res_avg[ch_num]);
 #endif
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-        // CH1 (PB1) touch active: cancel any pending release debounce, drive PC3 LOW
+        /* CH1 (PB1) FALLING: fast first-touch response — drive PC3 LOW immediately
+         * and cancel any pending release debounce. Also set state so the RES_EVENT
+         * poll (pb1_led_update_from_eartch_diff) doesn't redundantly re-drive. */
         if (ch_num == 1) {
             if (pb1_debounce_timer) {
                 usr_timer_del(pb1_debounce_timer);
                 pb1_debounce_timer = 0;
             }
+            pb1_eartch_touch_state = 1;
             gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, !TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL);
         }
 #endif
@@ -1613,18 +1657,6 @@ void p33_ctmu_key_event_irq_handler()
 #if CTMU_CHECK_LONG_CLICK_BY_RES
         lp_touch_key_ctmu_res_buf_clear(ch_num);
 #endif
-#if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-        /* CH1 (PB1) RAISING: start debounce instead of immediately going HIGH.
-         * The in-ear detection algorithm can fire spurious RAISING events while
-         * the finger is still on the pad; debouncing prevents PC3 glitching. */
-        if (ch_num == 1) {
-            if (!pb1_debounce_timer) {
-                pb1_debounce_timer = usr_timeout_add(NULL, pb1_led_release_debounce_cb,
-                                                     PB1_RELEASE_DEBOUNCE_MS, 1);
-            }
-        }
-#endif
-
 #if TCFG_LP_EARTCH_KEY_ENABLE
         /* FIX-016 BLOCK3: Only intercept CH1 RAISING for ear-out detection when
          * NOT using CH1 as a key channel. Otherwise CH1 RAISING events must flow
