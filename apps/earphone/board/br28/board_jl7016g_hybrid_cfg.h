@@ -49,19 +49,19 @@
 // Bluetooth device name — shown on phone pairing screen (max 31 chars)
 // Both buds in the same pair should use the same name
 #define BT_DEVICE_NAME      {'Z', 'O', 'N', 'E', '-', 'E', 'E', 'G', '-', 'B', 'U', 'D', '-', '0', '0', '1'}   // for bt_cfg struct init
-#define BT_DEVICE_NAME_STR  "ZONE-EEG-BUD-002"                               // for syscfg_write to VM
+#define BT_DEVICE_NAME_STR  "ZONE-EEG-BUD-001"                               // for syscfg_write to VM
 
 #define BUD_LEFT    0
 #define BUD_RIGHT   1
 
 // Pair 1 MAC addresses and pair code
-#define P1_LEFT_MAC      {0x3C, 0x00, 0x0A, 0x7E, 0x1A, 0x03}
-#define P1_RIGHT_MAC     {0x3C, 0x00, 0x0A, 0x7E, 0x1A, 0x04}
-#define P1_COMMON_MAC    {0xAA, 0xBB, 0xCC, 0x00, 0x01, 0x05}
+#define P1_LEFT_MAC      {0x3C, 0x00, 0x0A, 0x7E, 0x1A, 0x00}
+#define P1_RIGHT_MAC     {0x3C, 0x00, 0x0A, 0x7E, 0x1A, 0x01}
+#define P1_COMMON_MAC    {0xAA, 0xBB, 0xCC, 0x00, 0x01, 0x02}
 #define P1_PAIR_CODE     0x6688
 
 //  ▼▼▼  CHANGE ONLY THIS LINE PER FIRMWARE IMAGE  ▼▼▼
-#define THIS_BUD         BUD_RIGHT
+#define THIS_BUD         BUD_LEFT
 
 // Derived — consumed by key table (board_jl7016g_hybrid.c) and provisioning (user_cfg.c)
 #define TCFG_RIGHT_BUD   THIS_BUD
@@ -255,7 +255,7 @@
 //PB1 In-ear touch to PC3 LED feedback configuration
 #define TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE    ENABLE_THIS_MOUDLE  //Enable PB1 touch to control LED on PC3
 #define TCFG_LP_TOUCH_PB1_LED_PORT              IO_PORTC_03         //LED output GPIO port for PB1 feedback
-#define TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL      0                   //touched=LOW(0V), released=HIGH(3V)
+#define TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL      1                   //RAISING drives this level (HIGH=3V); FALLING drives !this (LOW=0V)
 
 #if TCFG_LP_TOUCH_KEY_ENABLE
 //如果 IO按键与触摸按键有冲突，则需要关掉 IO按键的 宏

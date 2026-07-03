@@ -175,6 +175,21 @@ static u16 long_event_res_avg[5] = {0, 0, 0, 0, 0};
 
 static const u8 _ch_priv[5] = {0, 1, 2, 3, 4};
 
+#if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
+/* Debounce the CH1 RAISING event so spurious releases from the in-ear
+ * detection algorithm do not glitch PC3 HIGH during a held touch.
+ * PC3 only goes HIGH if RAISING persists for PB1_RELEASE_DEBOUNCE_MS
+ * with no new FALLING event cancelling it. */
+#define PB1_RELEASE_DEBOUNCE_MS  150
+static u16 pb1_debounce_timer = 0;
+
+static void pb1_led_release_debounce_cb(void *priv)
+{
+    pb1_debounce_timer = 0;
+    gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL); /* HIGH = released */
+}
+#endif
+
 int __attribute__((weak)) lp_touch_key_event_remap(struct sys_event *e)
 {
     return true;
@@ -918,14 +933,12 @@ void lp_touch_key_init(const struct lp_touch_key_platform_data *config)
 #endif /* #if TCFG_LP_TOUCH_KEY_BT_TOOL_ENABLE */
 
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-    /* Initialize PC3 as GPIO output, idle LOW.
-     * gpio_write() only drives the output register — the direction register
-     * must be set to output (0) first, otherwise the pin stays Hi-Z and
-     * gpio_write calls in the FALLING/RAISING handlers have no effect. */
+    /* Initialize PC3 as GPIO output, idle HIGH (not-touched state).
+     * Pull-up/down off; direction must be output before gpio_write has effect. */
     gpio_set_pull_up(TCFG_LP_TOUCH_PB1_LED_PORT, 0);
     gpio_set_pull_down(TCFG_LP_TOUCH_PB1_LED_PORT, 0);
     gpio_set_direction(TCFG_LP_TOUCH_PB1_LED_PORT, 0);   /* 0 = output */
-    gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL); /* idle HIGH */
+    gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL); /* HIGH = not touched */
 #endif
 
     __this->init = 1;
@@ -1579,8 +1592,12 @@ void p33_ctmu_key_event_irq_handler()
         log_debug("falling_res_avg: %d", falling_res_avg[ch_num]);
 #endif
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-        // CH1 (PB1) touch active: drive PC3 LOW
+        // CH1 (PB1) touch active: cancel any pending release debounce, drive PC3 LOW
         if (ch_num == 1) {
+            if (pb1_debounce_timer) {
+                usr_timer_del(pb1_debounce_timer);
+                pb1_debounce_timer = 0;
+            }
             gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, !TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL);
         }
 #endif
@@ -1597,9 +1614,14 @@ void p33_ctmu_key_event_irq_handler()
         lp_touch_key_ctmu_res_buf_clear(ch_num);
 #endif
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-        // CH1 (PB1) touch released: drive PC3 HIGH
+        /* CH1 (PB1) RAISING: start debounce instead of immediately going HIGH.
+         * The in-ear detection algorithm can fire spurious RAISING events while
+         * the finger is still on the pad; debouncing prevents PC3 glitching. */
         if (ch_num == 1) {
-            gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL);
+            if (!pb1_debounce_timer) {
+                pb1_debounce_timer = usr_timeout_add(NULL, pb1_led_release_debounce_cb,
+                                                     PB1_RELEASE_DEBOUNCE_MS, 1);
+            }
         }
 #endif
 
