@@ -64,7 +64,7 @@ const static struct ch_adjust_table ch_sensitivity_table[] = {
     {  109,   131,  1967}, // level 7
     {  109,   131,  1631}, // level 8
     {  109,   131,  1295}, // level 9
-//ch1  PB1 - IDENTICAL to PB4 (ch3) parameters
+//ch1  PB1 - extended high-sensitivity range for extreme touch detection
     {   10,    15,   152}, // level 0
     {   10,    15,   140}, // level 1
     {   10,    15,   128}, // level 2
@@ -72,9 +72,9 @@ const static struct ch_adjust_table ch_sensitivity_table[] = {
     {   10,    15,   104}, // level 4
     {   10,    15,    92}, // level 5
     {   10,    15,    81}, // level 6
-    {   10,    15,    69}, // level 7
-    {   10,    15,    57}, // level 8
-    {   10,    15,    45}, // level 9
+    {   10,    15,    50}, // level 7 (boosted)
+    {   10,    15,    30}, // level 8 (boosted)
+    {   10,    15,    18}, // level 9 (extreme)
 //ch2  PB2
     {   10,    15,   152}, // level 0
     {   10,    15,   140}, // level 1

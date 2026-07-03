@@ -229,7 +229,7 @@
 // Allow key events on PB4 even when PB4 is used as eartch reference channel.
 #define TCFG_LP_EARTCH_REF_KEY_EVENT_ENABLE   1
 // Allow higher touch range on this board; PB4 long/hold commonly reaches 3k-4k.
-#define TCFG_LP_TOUCH_ALOG_RANGE_MIN         50
+#define TCFG_LP_TOUCH_ALOG_RANGE_MIN         20
 #define TCFG_LP_TOUCH_ALOG_RANGE_MAX         5000
 // Disable CTMU long-by-res filter on this board: it can suppress valid CH3 LONG/HOLD events.
 #define TCFG_LP_TOUCH_CHECK_LONG_BY_RES_ENABLE 0
@@ -240,7 +240,7 @@
 //触摸时电容变化量越大, 推荐选择灵敏度级数越小,
 //用户可以从灵敏度级数为0开始调试, 级数逐渐增大, 直到选择一个合适的灵敏度配置值.
 #define TCFG_LP_TOUCH_KEY0_SENSITIVITY		5 	//触摸按键0电容检测灵敏度配置(级数0 ~ 9)
-#define TCFG_LP_TOUCH_KEY1_SENSITIVITY		7 	//触摸按键1电容检测灵敏度配置(级数0 ~ 9) - 提高以改善检测
+#define TCFG_LP_TOUCH_KEY1_SENSITIVITY		9 	//触摸按键1电容检测灵敏度配置(级数0 ~ 9) - 极高灵敏度
 #define TCFG_LP_TOUCH_KEY2_SENSITIVITY		5 	//触摸按键2电容检测灵敏度配置(级数0 ~ 9)
 #define TCFG_LP_TOUCH_KEY3_SENSITIVITY		7 	//触摸按键3电容检测灵敏度配置(级数0 ~ 9) - 提高以改善检测
 #define TCFG_LP_TOUCH_KEY4_SENSITIVITY		5 	//触摸按键4电容检测灵敏度配置(级数0 ~ 9)
