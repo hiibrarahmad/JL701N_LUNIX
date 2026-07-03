@@ -178,31 +178,43 @@ static const u8 _ch_priv[5] = {0, 1, 2, 3, 4};
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
 /* PC3 CONTROL — calibration-free, immune to P33 IIR baseline drift.
  *
- * Problem: The P33 CTMU co-processor has an adaptive IIR (cfg1) that
- * slowly drifts toward the current resistance over ~80 seconds.  Once
- * the IIR catches up to the touched resistance, it fires a spurious
- * RAISING (key-release) event even though the finger is still present.
+ * Root cause: the P33 CTMU adaptive IIR (cfg1) slowly drifts toward the
+ * current resistance during a long hold (~80 s).  Once it catches up, the
+ * P33 fires a spurious RAISING even though the finger is still present.
  *
- * Fix: At RAISING time, compare the raw CH1 resistance (from the most
- * recent RES_EVENT scan) against the IIR baseline that was recorded
- * when the touch first started.  If ch1_res is still well below that
- * no-touch baseline, the RAISING is a false alarm — ignore it.
- * Only treat RAISING as a real release when ch1_res has risen back
- * to within 80% of the no-touch baseline.
+ * Fix: use the raw CH1 resistance (eartch_ch_res, no trim involved) to
+ * distinguish a false RAISING from a real one.
  *
- * This requires no trim calibration and no BT debug tool. */
+ *  • At FALLING:       set a flag so the NEXT RES_EVENT captures the
+ *                      resistance as "touched reference" (pb1_touch_ch1_res).
+ *                      The RES_EVENT after FALLING is the first scan where
+ *                      the P33 registers already reflect the touched state.
+ *
+ *  • Every RES_EVENT:  update pb1_last_ch1_res with the fresh raw reading.
+ *                      If the capture flag is set, also save it as the
+ *                      touch reference.
+ *
+ *  • At RAISING:       veto if pb1_last_ch1_res is still within ±50 % of
+ *                      pb1_touch_ch1_res (finger still changes resistance the
+ *                      same way).  A real release moves ch1_res back toward
+ *                      the no-touch baseline, which is outside that window.
+ *                      On real release, start a 150 ms debounce then drive
+ *                      PC3 HIGH.
+ *
+ * No trim calibration or BT tool needed. Works for touch=LOW and touch=HIGH
+ * resistance directions. */
 
-static u16 pb1_debounce_timer = 0;
-static u8  pb1_touch_state = 0;         /* 0 = released, 1 = held */
-static u16 pb1_last_ch1_res = 0;        /* raw CH1 resistance from last RES_EVENT */
-static u16 pb1_last_ch1_iir = 0;        /* IIR (adaptive baseline) from last RES_EVENT */
-static u16 pb1_nouch_iir_at_fall = 0;   /* IIR baseline captured at FALLING time */
+static u16 pb1_debounce_timer   = 0;
+static u8  pb1_touch_state      = 0;   /* 0 = released, 1 = held */
+static u16 pb1_last_ch1_res     = 0;   /* raw CH1 res from last RES_EVENT */
+static u16 pb1_touch_ch1_res    = 0;   /* CH1 res at first RES_EVENT after FALLING */
+static u8  pb1_capture_next_res = 0;   /* flag: capture touch ref on next RES_EVENT */
 
 static void pb1_led_release_cb(void *priv)
 {
     pb1_debounce_timer = 0;
-    pb1_touch_state = 0;
-    gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL); /* HIGH = released */
+    pb1_touch_state    = 0;
+    gpio_write(TCFG_LP_TOUCH_PB1_LED_PORT, TCFG_LP_TOUCH_PB1_LED_ACTIVE_LEVEL);
 }
 #endif
 
@@ -1531,10 +1543,11 @@ void p33_ctmu_key_event_irq_handler()
             }
 
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-            /* Cache raw CH1 resistance and IIR baseline for use in the
-             * RAISING veto check (available in a different switch case). */
             pb1_last_ch1_res = eartch_ch_res;
-            pb1_last_ch1_iir = eartch_iir;
+            if (pb1_capture_next_res) {
+                pb1_touch_ch1_res    = eartch_ch_res;
+                pb1_capture_next_res = 0;
+            }
 #endif
 
         }
@@ -1615,11 +1628,13 @@ void p33_ctmu_key_event_irq_handler()
         log_debug("falling_res_avg: %d", falling_res_avg[ch_num]);
 #endif
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-        /* CH1 (PB1) FALLING: drive PC3 LOW immediately.
-         * Also capture the current IIR baseline (no-touch level) so the
-         * RAISING handler can detect false IIR-drift events later. */
         if (ch_num == 1) {
-            pb1_nouch_iir_at_fall = pb1_last_ch1_iir;
+            /* Drive PC3 LOW immediately.
+             * Schedule capture of the touched ch1 resistance on the next
+             * RES_EVENT — by that time P33 registers reflect the touched
+             * state, giving us the reference to veto false RAISINGs. */
+            pb1_capture_next_res = 1;
+            pb1_touch_ch1_res    = 0;   /* invalidate until capture */
             if (pb1_debounce_timer) {
                 usr_timer_del(pb1_debounce_timer);
                 pb1_debounce_timer = 0;
@@ -1635,34 +1650,36 @@ void p33_ctmu_key_event_irq_handler()
     case CTMU_P2M_CH3_RAISING_EVENT:
     case CTMU_P2M_CH4_RAISING_EVENT:
         log_debug("CH%d: RAISING", ch_num);
-        is_lpkey_active = 0;
 
 #if CTMU_CHECK_LONG_CLICK_BY_RES
         lp_touch_key_ctmu_res_buf_clear(ch_num);
 #endif
 #if TCFG_LP_TOUCH_PB1_LED_FEEDBACK_ENABLE
-        /* Veto spurious RAISING events caused by P33 IIR baseline drift.
+        /* Veto spurious RAISING caused by P33 IIR baseline drift (~80 s).
          *
-         * After ~80s of a held touch the IIR (cfg1) adapts toward the
-         * touched resistance and fires RAISING even though the finger is
-         * still present.  At that moment pb1_last_ch1_res is still well
-         * below the no-touch IIR value recorded at FALLING time.
+         * At a false RAISING the finger is still on the pad so pb1_last_ch1_res
+         * is still close to pb1_touch_ch1_res (captured at first RES_EVENT after
+         * FALLING).  A real release moves ch1_res outside ±50 % of that reference.
          *
-         * Threshold: 80% of the no-touch baseline.  If raw CH1 resistance
-         * hasn't recovered to at least 80% of that baseline, the finger is
-         * still there — skip PC3 release and suppress the key event. */
+         * is_lpkey_active is NOT cleared for false RAISINGs — keeping the LP
+         * target active prevents the CPU from sleeping while the finger is held,
+         * which would pause the P33 scan and freeze PC3 state. */
         if (ch_num == 1 && pb1_touch_state) {
-            u16 release_threshold = pb1_nouch_iir_at_fall - (pb1_nouch_iir_at_fall >> 2); /* 75% */
-            if (pb1_nouch_iir_at_fall > 0 && pb1_last_ch1_res < release_threshold) {
-                /* False RAISING: IIR drifted but finger still on pad — ignore */
-                break;
+            if (pb1_touch_ch1_res > 0) {
+                u16 lo = pb1_touch_ch1_res >> 1;                     /* 50 % */
+                u16 hi = pb1_touch_ch1_res + pb1_touch_ch1_res;      /* 200 % */
+                if (pb1_last_ch1_res >= lo && pb1_last_ch1_res <= hi) {
+                    /* Still in touch range — false RAISING, ignore */
+                    break;  /* do NOT clear is_lpkey_active */
+                }
             }
-            /* Real release: start short debounce to reject noise glitches */
+            /* Real release */
             if (!pb1_debounce_timer) {
                 pb1_debounce_timer = usr_timeout_add(NULL, pb1_led_release_cb, 150, 1);
             }
         }
 #endif
+        is_lpkey_active = 0;
 #if TCFG_LP_EARTCH_KEY_ENABLE
         /* FIX-016 BLOCK3: Only intercept CH1 RAISING for ear-out detection when
          * NOT using CH1 as a key channel. Otherwise CH1 RAISING events must flow
